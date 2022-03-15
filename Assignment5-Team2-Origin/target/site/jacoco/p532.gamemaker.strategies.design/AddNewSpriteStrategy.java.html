@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>AddNewSpriteStrategy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">breakout</a> &gt; <a href="index.source.html" class="el_package">p532.gamemaker.strategies.design</a> &gt; <span class="el_source">AddNewSpriteStrategy.java</span></div><h1>AddNewSpriteStrategy.java</h1><pre class="source lang-java linenums">package p532.gamemaker.strategies.design;
+
+import p532.gamemaker.controllers.ParentWindow;
+import p532.gamemaker.views.SpritePresenter;
+import p532.gamemaker.sprite.*;
+
+public class AddNewSpriteStrategy
+{
+    private AddNewSpriteStrategy() {
+    }
+    
+    private static void setupSprite(Sprite defaultSprite)
+    {
+<span class="nc" id="L14">        SpritePresenter spriteController = ParentWindow.getGameDesignScene().getSpritePresenter();</span>
+
+        //Add the default Sprite to the SpritePresenter
+<span class="nc" id="L17">        spriteController.addSprite(defaultSprite);</span>
+
+        //Add the sprite to the level
+<span class="nc" id="L20">        Level level = spriteController.getLevel();</span>
+<span class="nc" id="L21">        level.addSprite(defaultSprite);</span>
+<span class="nc" id="L22">    }</span>
+    
+    public static Sprite createRectangle()
+    {
+        //Create the Sprite
+<span class="nc" id="L27">        Sprite defaultSprite = GameRectangle.defaultSprite();</span>
+        
+        //Set it up for use in the editor
+<span class="nc" id="L30">        setupSprite(defaultSprite);</span>
+<span class="nc" id="L31">        return defaultSprite;</span>
+    }
+
+    public static Sprite createCircle()
+    {
+        //Create the Sprite
+<span class="nc" id="L37">        Sprite defaultSprite = GameCircle.defaultSprite();</span>
+        
+        //Set it up for use in the editor
+<span class="nc" id="L40">        setupSprite(defaultSprite);</span>
+<span class="nc" id="L41">        return defaultSprite;</span>
+    }
+
+    public static Sprite createLabel()
+    {
+        //Create the Sprite
+<span class="nc" id="L47">        Sprite defaultSprite = GameLabel.defaultSprite();</span>
+
+        //Set it up for use in the editor
+<span class="nc" id="L50">        setupSprite(defaultSprite);</span>
+<span class="nc" id="L51">        return defaultSprite;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

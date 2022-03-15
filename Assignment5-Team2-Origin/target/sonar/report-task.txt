@@ -1,0 +1,6 @@
+projectKey=GameMaker-Origin
+serverUrl=http://localhost:9000
+serverVersion=9.1.0.47736
+dashboardUrl=http://localhost:9000/dashboard?id=GameMaker-Origin
+ceTaskId=AXyO1RE0YVhkVzDqWlPW
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AXyO1RE0YVhkVzDqWlPW

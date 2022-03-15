@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Sprite.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">breakout</a> &gt; <a href="index.source.html" class="el_package">p532.gamemaker.sprite</a> &gt; <span class="el_source">Sprite.java</span></div><h1>Sprite.java</h1><pre class="source lang-java linenums">package p532.gamemaker.sprite;
+
+import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
+import p532.gamemaker.command.MoveCommands;
+import p532.gamemaker.controllers.ParentWindow;
+import p532.gamemaker.playthegame.KeyEventObserver;
+import p532.gamemaker.playthegame.TickObserver;
+import p532.gamemaker.sprite.conditions.CollisionCondition;
+import p532.gamemaker.sprite.conditions.KeyEventCondition;
+import p532.gamemaker.strategies.DoNothingStrategy;
+import p532.gamemaker.strategies.GeneralStrategy;
+import p532.gamemaker.strategies.collision.CollisionType;
+import p532.gamemaker.strategies.collision.DestroySelfStrategy;
+import p532.gamemaker.strategies.design.SelectSpriteStrategy;
+import p532.gamemaker.strategies.display.SetClockTextStrategy;
+
+import java.util.ArrayList;
+import java.util.ListIterator;
+
+
+public class Sprite implements TickObserver, KeyEventObserver
+{
+	//How the Sprite is displayed
+	//Ex: a GameLabel view makes the Sprite display as text.
+	private SpriteView view;
+
+<span class="nc" id="L28">	private String userDefinedType = &quot;&quot;;</span>
+<span class="nc" id="L29">	private double velocityX = 0;</span>
+<span class="nc" id="L30">	private double velocityY = 0;</span>
+<span class="nc" id="L31">	private boolean isDestroyed = false; //TODO remove -- it's unused</span>
+
+	//private Sound onHitSomethingSound; TODO
+	//private Sound onGetHitSound; TODO
+
+	//Key event handlers (strategies)
+<span class="nc" id="L37">	private ArrayList&lt;CollisionCondition&gt; onHitSomethingConditionList = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L38">	private ArrayList&lt;CollisionCondition&gt; onGetHitConditionList = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L39">	private ArrayList&lt;KeyEventCondition&gt; onKeyPressConditionList = new ArrayList&lt;&gt;();</span>
+
+	//Mouse event handlers (strategies)
+<span class="nc" id="L42">	private GeneralStrategy mouseClickStrategy = DoNothingStrategy.instance;</span>
+<span class="nc" id="L43">	private GeneralStrategy mouseEnterStrategy = DoNothingStrategy.instance;</span>
+<span class="nc" id="L44">	private GeneralStrategy mouseExitStrategy = DoNothingStrategy.instance;</span>
+
+	//onTick -- This may vary based on the SpriteView concrete type
+	//(example strategy: changing the GameLabel text to reflect the current time)
+<span class="nc" id="L48">	private GeneralStrategy onTickStrategy = DoNothingStrategy.instance;</span>
+
+
+<span class="nc" id="L51">	public Sprite() {</span>
+<span class="nc" id="L52">	}</span>
+
+
+	/**
+	 * A &quot;constructor&quot; that creates a new Sprite
+	 * with default properties.
+	 * @return a new Sprite with a GameCircle view
+	 */
+	public static Sprite defaultSprite()
+	{
+<span class="nc" id="L62">		Sprite sprite = new Sprite();</span>
+<span class="nc" id="L63">		sprite.view = new GameCircle();</span>
+<span class="nc" id="L64">		sprite.view.setSpriteWidth(10);</span>
+<span class="nc" id="L65">		sprite.view.setLayoutX(100);</span>
+<span class="nc" id="L66">		sprite.view.setLayoutY(100);</span>
+<span class="nc" id="L67">		sprite.view.setFill(Color.GREEN);</span>
+
+		//Add listeners
+<span class="nc" id="L70">		sprite.setupSpriteForEditor();</span>
+
+<span class="nc" id="L72">		return sprite;</span>
+	}
+
+
+	//////////////// Getters &amp; Setters ////////////////
+
+	public SpriteView getView() {
+<span class="nc" id="L79">		return view;</span>
+	}
+
+	public void setView(SpriteView view) {
+<span class="nc" id="L83">		this.view = view;</span>
+<span class="nc" id="L84">	}</span>
+
+	public String getUserDefinedType() {
+<span class="nc" id="L87">		return userDefinedType;</span>
+	}
+
+	/**
+	 * Sets the sprite's type and updates the list of all Sprite types
+	 * for the current level.
+	 */
+	public void setUserDefinedType(String userDefinedType) {
+<span class="nc" id="L95">		this.userDefinedType = userDefinedType;</span>
+		//Update the list of all sprite types
+		//NOT Observer Pattern, but oh well
+<span class="nc" id="L98">		ParentWindow.getGameDesignScene().getSpritePresenter().getLevel().updateUserDefinedTypesList();</span>
+<span class="nc" id="L99">	}</span>
+
+	public double getVelocityX() {
+<span class="nc" id="L102">		return velocityX;</span>
+	}
+
+	public void setVelocityX(double velocityX) {
+<span class="nc" id="L106">		this.velocityX = velocityX;</span>
+<span class="nc" id="L107">	}</span>
+
+	public double getVelocityY() {
+<span class="nc" id="L110">		return velocityY;</span>
+	}
+
+	public void setVelocityY(double velocityY) {
+<span class="nc" id="L114">		this.velocityY = velocityY;</span>
+<span class="nc" id="L115">	}</span>
+
+	public boolean isDestroyed() {
+<span class="nc" id="L118">		return isDestroyed;</span>
+	}
+
+	public void setDestroyed(boolean destroyed) {
+<span class="nc" id="L122">		isDestroyed = destroyed;</span>
+<span class="nc" id="L123">	}</span>
+
+	public ArrayList&lt;CollisionCondition&gt; getOnHitSomethingConditionList() {
+<span class="nc" id="L126">		return onHitSomethingConditionList;</span>
+	}
+
+	public void setOnHitSomethingConditionList(ArrayList&lt;CollisionCondition&gt; onHitSomethingConditionList) {
+<span class="nc" id="L130">		this.onHitSomethingConditionList = onHitSomethingConditionList;</span>
+<span class="nc" id="L131">	}</span>
+
+	public ArrayList&lt;CollisionCondition&gt; getOnGetHitConditionList() {
+<span class="nc" id="L134">		return onGetHitConditionList;</span>
+	}
+
+	public void setOnGetHitConditionList(ArrayList&lt;CollisionCondition&gt; onGetHitConditionList) {
+<span class="nc" id="L138">		this.onGetHitConditionList = onGetHitConditionList;</span>
+<span class="nc" id="L139">	}</span>
+
+	public ArrayList&lt;KeyEventCondition&gt; getOnKeyPressConditionList() {
+<span class="nc" id="L142">		return onKeyPressConditionList;</span>
+	}
+
+	public void setOnKeyPressConditionList(ArrayList&lt;KeyEventCondition&gt; onKeyPressConditionList) {
+<span class="nc" id="L146">		this.onKeyPressConditionList = onKeyPressConditionList;</span>
+<span class="nc" id="L147">	}</span>
+
+	public GeneralStrategy getMouseClickStrategy() {
+<span class="nc" id="L150">		return mouseClickStrategy;</span>
+	}
+
+	public void setMouseClickStrategy(GeneralStrategy mouseClickStrategy) {
+<span class="nc" id="L154">		this.mouseClickStrategy = mouseClickStrategy;</span>
+<span class="nc" id="L155">	}</span>
+
+	public GeneralStrategy getMouseEnterStrategy() {
+<span class="nc" id="L158">		return mouseEnterStrategy;</span>
+	}
+
+	public void setMouseEnterStrategy(GeneralStrategy mouseEnterStrategy) {
+<span class="nc" id="L162">		this.mouseEnterStrategy = mouseEnterStrategy;</span>
+<span class="nc" id="L163">	}</span>
+
+	public GeneralStrategy getMouseExitStrategy() {
+<span class="nc" id="L166">		return mouseExitStrategy;</span>
+	}
+
+	public void setMouseExitStrategy(GeneralStrategy mouseExitStrategy) {
+<span class="nc" id="L170">		this.mouseExitStrategy = mouseExitStrategy;</span>
+<span class="nc" id="L171">	}</span>
+
+	public GeneralStrategy getOnTickStrategy() {
+<span class="nc" id="L174">		return onTickStrategy;</span>
+	}
+
+	public void setOnTickStrategy(GeneralStrategy onTickStrategy) {
+<span class="nc" id="L178">		this.onTickStrategy = onTickStrategy;</span>
+<span class="nc" id="L179">	}</span>
+
+	//////////////// Convenience Methods from the view ////////////////
+
+	public double getX()
+	{
+<span class="nc" id="L185">		return this.view.getLayoutX();</span>
+	}
+
+	public void setX(double value)
+	{
+<span class="nc" id="L190">		this.view.setLayoutX(value);</span>
+<span class="nc" id="L191">	}</span>
+
+	public double getY()
+	{
+<span class="nc" id="L195">		return this.view.getLayoutY();</span>
+	}
+
+	public void setY(double value)
+	{
+<span class="nc" id="L200">		this.view.setLayoutY(value);</span>
+<span class="nc" id="L201">	}</span>
+
+	////////////////////////////////////////////////////////////////
+
+
+
+
+
+
+
+
+	/**
+	 * Adds mouse listeners so that the Sprite can be selected
+	 * while editor mode.
+	 */
+	public void setupSpriteForEditor()
+	{
+		//Add click listener so that the Sprite can be selected
+<span class="nc" id="L219">		view.getNode().setOnMouseClicked(e -&gt; {</span>
+<span class="nc" id="L220">			handleMouseClickInEditor();</span>
+<span class="nc" id="L221">		});</span>
+
+		//Add drag-and-drop behavior to the Sprite's Node
+		//TODO this needs to be fixed
+		//DragController dragController = new DragController(this.getView().getNode(), true);
+<span class="nc" id="L226">	}</span>
+
+	/**
+	 * Adds mouse listeners to the Sprite that
+	 * only trigger in-game.
+	 */
+	public void setupSpriteForGamePlay()
+	{
+		//Add click listener to the Sprite
+<span class="nc" id="L235">		view.getNode().setOnMouseClicked(e -&gt; {</span>
+<span class="nc" id="L236">			handleMouseClickInGame();</span>
+<span class="nc" id="L237">		});</span>
+		//Add mouse enter listener to the Sprite
+<span class="nc" id="L239">		view.getNode().setOnMouseEntered(e -&gt; {</span>
+<span class="nc" id="L240">			handleMouseEnterInGame();</span>
+<span class="nc" id="L241">		});</span>
+		//Add mouse exit listener to the Sprite
+<span class="nc" id="L243">		view.getNode().setOnMouseExited(e -&gt; {</span>
+<span class="nc" id="L244">			handleMouseExitInGame();</span>
+<span class="nc" id="L245">		});</span>
+<span class="nc" id="L246">	}</span>
+
+
+
+	//////////////// Event Handlers ////////////////
+
+	@Override
+	public void onTick()
+	{
+		//Adjust position based on velocity (TEMP: should probably be moved)
+<span class="nc" id="L256">		view.setLayoutX(view.getLayoutX() + velocityX);</span>
+<span class="nc" id="L257">		view.setLayoutY(view.getLayoutY() + velocityY);</span>
+
+		//execute all commands from the move list
+		//movementBacklog.execute();
+
+		//Perform user-defined behavior
+<span class="nc" id="L263">		onTickStrategy.execute(this);</span>
+<span class="nc" id="L264">	}</span>
+
+	/**
+	 * Activates this Sprite's onHitSomethingBehavior when it collides with
+	 * another Sprite.
+	 * @param impactee the Sprite that was hit by this Sprite.
+	 * @param collisionType where the collider (this) hit the impactee;
+	 *                         e.g. on the impactee's top edge
+	 */
+	public void onHitSomething(Sprite impactee, CollisionType collisionType)
+	{
+		//Cycle through each condition in the list.
+<span class="nc" id="L276">		ListIterator&lt;CollisionCondition&gt; iterator = onHitSomethingConditionList.listIterator();</span>
+<span class="nc bnc" id="L277" title="All 2 branches missed.">		while (iterator.hasNext())</span>
+		{
+			//If the condition is satisfied, perform its strategy
+<span class="nc" id="L280">			CollisionCondition condition = iterator.next();</span>
+<span class="nc" id="L281">			condition.attemptCollisionBehavior(this, impactee, collisionType);</span>
+<span class="nc" id="L282">		}</span>
+<span class="nc" id="L283">	}</span>
+
+	/**
+	 * Activates this Sprite's onGetHitBehavior when another Sprite
+	 * collides with it.
+	 * @param collider the Sprite that hit this Sprite.
+	 * @param collisionType where the collidee hit the impactee (this);
+	 * 	 *                         e.g. on the impactee's top edge
+	 */
+	public void onGetHit(Sprite collider, CollisionType collisionType)
+	{
+		//Cycle through each condition in the list.
+<span class="nc" id="L295">		ListIterator&lt;CollisionCondition&gt; iterator = onGetHitConditionList.listIterator();</span>
+<span class="nc bnc" id="L296" title="All 2 branches missed.">		while (iterator.hasNext())</span>
+		{
+			//If the condition is satisfied, perform its strategy
+<span class="nc" id="L299">			CollisionCondition condition = iterator.next();</span>
+<span class="nc" id="L300">			condition.attemptCollisionBehavior(this, collider, collisionType);</span>
+<span class="nc" id="L301">		}</span>
+<span class="nc" id="L302">	}</span>
+
+	/**
+	 * Activates the Sprite's onDestroyBehavior, triggering
+	 * some other action. This does not rely on sprite.isDestroyed().
+	 */
+	public void onDestroy()
+	{
+		//TODO this is optional to implement
+<span class="nc" id="L311">	}</span>
+
+	/**
+	 * When any key event happens, this decides if and how the Sprite
+	 * will respond. Each of the user-defined KeyEventConditions in this Sprite
+	 * is checked. If the condition's keyCode matches the input keyCode, the
+	 * strategy inside the condition is fired.
+	 * @param keyCode
+	 */
+	@Override
+	public void notifyOfKeyPressed(KeyCode keyCode)
+	{
+		//Cycle through each condition in the list.
+<span class="nc bnc" id="L324" title="All 2 branches missed.">		for (KeyEventCondition condition : onKeyPressConditionList)</span>
+		{
+			//If the condition is satisfied, perform its strategy
+<span class="nc" id="L327">			condition.attemptBehavior(this, keyCode);</span>
+<span class="nc" id="L328">		}</span>
+<span class="nc" id="L329">	}</span>
+
+
+	/**
+	 * Performs a certain action when the Sprite is clicked
+	 * on while in the editor. Example: all the Sprite's
+	 * properties are rendered in a list.
+	 */
+	private void handleMouseClickInEditor()
+	{
+<span class="nc" id="L339">		SelectSpriteStrategy.execute(this); //this isn't really the strategy pattern, but we can change it if needed</span>
+<span class="nc" id="L340">	}</span>
+
+	private void handleMouseClickInGame() {
+<span class="nc" id="L343">		mouseClickStrategy.execute(this);</span>
+<span class="nc" id="L344">	}</span>
+
+	private void handleMouseEnterInGame() {
+<span class="nc" id="L347">		mouseEnterStrategy.execute(this);</span>
+<span class="nc" id="L348">	}</span>
+
+	private void handleMouseExitInGame() {
+<span class="nc" id="L351">		mouseExitStrategy.execute(this);</span>
+<span class="nc" id="L352">	}</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

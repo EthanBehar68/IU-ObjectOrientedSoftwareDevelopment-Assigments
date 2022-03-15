@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ColorPickerComponentLoader.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">breakout</a> &gt; <a href="index.source.html" class="el_package">p532.gamemaker.views</a> &gt; <span class="el_source">ColorPickerComponentLoader.java</span></div><h1>ColorPickerComponentLoader.java</h1><pre class="source lang-java linenums">package p532.gamemaker.views;
+
+import javafx.fxml.FXMLLoader;
+import javafx.scene.control.ColorPicker;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import p532.gamemaker.sprite.Sprite;
+import p532.gamemaker.sprite.UpdateSpriteAdapter;
+
+import java.io.IOException;
+
+public class ColorPickerComponentLoader
+{
+    public static final String FXML_PATH = &quot;color-property-component.fxml&quot;;
+
+    private ColorPickerComponentLoader() {
+    }
+
+    /**
+     * Creates a VBox that holds a Label and a ColorPicker.
+     * When a value is selected in the ColorPicker, this passes the color value
+     * to the updateSpriteAdapter's updateColor(...) method.
+     * @param initialValue
+     * @param updateSpriteAdapter an anonymous object that updates a Sprite. It should
+     *                            override the updateColor(...) method.
+     * @return a VBox holding a Label and a ColorPicker OR an empty VBOX
+     * if there was a problem loading the FXML..
+     */
+    public static VBox create(Color initialValue, UpdateSpriteAdapter updateSpriteAdapter)
+    {
+        try
+        {
+            //Create a Color picker from FXML
+<span class="nc" id="L34">            ClassLoader classLoader = ColorPickerComponentLoader.class.getClassLoader();</span>
+<span class="nc" id="L35">            VBox colorPickerComponent = FXMLLoader.load(classLoader.getResource(FXML_PATH));</span>
+<span class="nc" id="L36">            ColorPicker picker = (ColorPicker) colorPickerComponent.lookup(&quot;#colorPicker&quot;);</span>
+
+            //Display the selected Sprite's current color in the picker
+<span class="nc" id="L39">            picker.setValue(initialValue);</span>
+
+            //When the color picker's value changes, update the Sprite
+<span class="nc" id="L42">            picker.valueProperty().addListener((observable, oldValue, newValue) -&gt; {</span>
+<span class="nc" id="L43">                updateSpriteAdapter.updateColor(newValue);</span>
+<span class="nc" id="L44">            });</span>
+<span class="nc" id="L45">            return colorPickerComponent;</span>
+        }
+<span class="nc" id="L47">        catch (IOException e) {</span>
+            //Do nothing -- just print a msg
+<span class="nc" id="L49">            System.out.println(&quot;Failed to load in the XML for &quot; + FXML_PATH);</span>
+<span class="nc" id="L50">            e.printStackTrace();</span>
+        }
+<span class="nc" id="L52">        return new VBox();</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

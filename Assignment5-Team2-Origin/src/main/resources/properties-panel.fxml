@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane maxHeight="1.7976931348623157E308" maxWidth="200.0" minWidth="-Infinity" prefWidth="200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <VBox id="vboxAllProperties" layoutX="-2.0" layoutY="-1.0" maxHeight="1.7976931348623157E308" maxWidth="18.0" minWidth="-Infinity" prefWidth="200.0">
+         <children>
+            <Label alignment="CENTER" maxWidth="1.7976931348623157E308" minWidth="-Infinity" prefWidth="200.0" text="Properties" textAlignment="CENTER" VBox.vgrow="ALWAYS">
+               <font>
+                  <Font size="24.0" />
+               </font>
+               <VBox.margin>
+                  <Insets top="8.0" />
+               </VBox.margin>
+            </Label>
+            <Label minWidth="-Infinity" text="Standard Properties" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="16.0" right="16.0" top="8.0" />
+               </VBox.margin>
+            </Label>
+            <VBox id="vboxStandardProperties" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" />
+            <Label minWidth="-Infinity" text="onKeyPress" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="16.0" right="16.0" top="32.0" />
+               </VBox.margin>
+            </Label>
+            <Label maxHeight="1.7976931348623157E308" minWidth="-Infinity" prefWidth="200.0" text="When a key is pressed, do..." wrapText="true">
+               <VBox.margin>
+                  <Insets left="16.0" right="16.0" />
+               </VBox.margin>
+            </Label>
+            <VBox id="vboxOnKeyPressConditions" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" />
+            <Button id="btnAddOnKeyPressBehavior" maxWidth="1.7976931348623157E308" mnemonicParsing="false" prefWidth="268.0" text="Add Key Press Behavior">
+               <VBox.margin>
+                  <Insets bottom="32.0" left="16.0" right="16.0" top="8.0" />
+               </VBox.margin>
+            </Button>
+            <Label minWidth="-Infinity" text="onHitSomething Collision" wrapText="true" VBox.vgrow="ALWAYS">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="16.0" right="16.0" top="16.0" />
+               </VBox.margin>
+            </Label>
+            <Label maxHeight="1.7976931348623157E308" prefWidth="200.0" text="When something hits this Sprite, do..." wrapText="true">
+               <VBox.margin>
+                  <Insets left="16.0" right="16.0" />
+               </VBox.margin>
+            </Label>
+            <VBox id="vboxOnHitSomethingConditions" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" />
+            <Button id="btnAddOnHitSomethingBehavior" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Add Collision Behavior">
+               <VBox.margin>
+                  <Insets bottom="32.0" left="16.0" right="16.0" top="8.0" />
+               </VBox.margin>
+            </Button>
+            <Label minWidth="-Infinity" text="onGetHit Collision" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="16.0" right="8.0" top="16.0" />
+               </VBox.margin>
+            </Label>
+            <Label maxHeight="1.7976931348623157E308" maxWidth="200.0" prefWidth="200.0" text="When this Sprite hits another Sprite, do..." wrapText="true">
+               <VBox.margin>
+                  <Insets left="16.0" right="16.0" />
+               </VBox.margin>
+            </Label>
+            <VBox id="vboxOnGetHitConditions" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0" />
+            <Button id="btnAddOnGetHitBehavior" maxWidth="1.7976931348623157E308" mnemonicParsing="false" text="Add Collision Behavior">
+               <VBox.margin>
+                  <Insets bottom="32.0" left="16.0" right="16.0" top="8.0" />
+               </VBox.margin>
+            </Button>
+            <Label minWidth="-Infinity" text="Mouse Events" wrapText="true">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets left="16.0" right="8.0" top="16.0" />
+               </VBox.margin>
+            </Label>
+            <VBox id="vboxMouseEvents" maxHeight="1.7976931348623157E308" maxWidth="-Infinity" minWidth="-Infinity" prefWidth="200.0">
+               <VBox.margin>
+                  <Insets bottom="24.0" />
+               </VBox.margin>
+            </VBox>
+         </children>
+      </VBox>
+   </children>
+</AnchorPane>

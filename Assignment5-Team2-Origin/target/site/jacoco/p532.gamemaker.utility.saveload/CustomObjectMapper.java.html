@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CustomObjectMapper.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">breakout</a> &gt; <a href="index.source.html" class="el_package">p532.gamemaker.utility.saveload</a> &gt; <span class="el_source">CustomObjectMapper.java</span></div><h1>CustomObjectMapper.java</h1><pre class="source lang-java linenums">package p532.gamemaker.utility.saveload;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
+import javafx.scene.paint.Color;
+import p532.gamemaker.sprite.GameCircle;
+import p532.gamemaker.sprite.GameLabel;
+import p532.gamemaker.sprite.GameRectangle;
+import p532.gamemaker.sprite.SpriteView;
+import p532.gamemaker.strategies.DoNothingStrategy;
+import p532.gamemaker.strategies.collision.*;
+import p532.gamemaker.strategies.display.SetClockTextStrategy;
+import p532.gamemaker.strategies.display.SetStopwatchTextStrategy;
+import p532.gamemaker.strategies.movement.MoveDownStrategy;
+import p532.gamemaker.strategies.movement.MoveLeftStrategy;
+import p532.gamemaker.strategies.movement.MoveRightStrategy;
+import p532.gamemaker.strategies.movement.MoveUpStrategy;
+import p532.gamemaker.utility.saveload.custom.*;
+
+public class CustomObjectMapper extends ObjectMapper
+{
+    public CustomObjectMapper()
+    {
+<span class="nc" id="L24">        super();</span>
+
+        //Customize the mapper to allow custom de/serialize
+<span class="nc" id="L27">        SimpleModule module = new SimpleModule(&quot;JavaFX Module&quot;);</span>
+
+        //Colors
+<span class="nc" id="L30">        module.addSerializer(Color.class, new ColorJsonSerializer(Color.class));</span>
+<span class="nc" id="L31">        module.addDeserializer(Color.class, new ColorJsonDeserializer(Color.class));</span>
+
+        //SpriteViews
+<span class="nc" id="L34">        module.addSerializer(SpriteView.class, new SpriteViewJsonSerializer(SpriteView.class));</span>
+<span class="nc" id="L35">        module.addDeserializer(GameCircle.class, new GameCircleJsonDeserializer());</span>
+<span class="nc" id="L36">        module.addDeserializer(GameRectangle.class, new GameRectangleJsonDeserializer());</span>
+<span class="nc" id="L37">        module.addDeserializer(GameLabel.class, new GameLabelJsonDeserializer());</span>
+
+        //Strategies
+<span class="nc" id="L40">        module.addDeserializer(DoNothingStrategy.class, new DoNothingCollisionStrategyJsonDeserializer());</span>
+<span class="nc" id="L41">        module.addDeserializer(ReflectStrategy.class, new ReflectStrategyJsonDeserializer());</span>
+<span class="nc" id="L42">        module.addDeserializer(EndGameStrategy.class, new EndGameStrategyJsonDeserializer());</span>
+<span class="nc" id="L43">        module.addDeserializer(DestroySelfStrategy.class, new DestroySelfStrategyJsonDeserializer());</span>
+<span class="nc" id="L44">        module.addDeserializer(SwitchLevelStrategy.class, new SwitchLevelStrategyJsonDeserializer());</span>
+<span class="nc" id="L45">        module.addDeserializer(VictoryStrategy.class, new VictoryStrategyJsonDeserializer());</span>
+<span class="nc" id="L46">        module.addDeserializer(SetClockTextStrategy.class, new SetClockTextStrategyJsonDeserializer());</span>
+<span class="nc" id="L47">        module.addDeserializer(SetStopwatchTextStrategy.class, new SetStopwatchTextStrategyJsonDeserializer());</span>
+        //Move Strategies
+<span class="nc" id="L49">        module.addDeserializer(MoveLeftStrategy.class, new MoveLeftStrategyJsonDeserializer());</span>
+<span class="nc" id="L50">        module.addDeserializer(MoveRightStrategy.class, new MoveRightStrategyJsonDeserializer());</span>
+<span class="nc" id="L51">        module.addDeserializer(MoveUpStrategy.class, new MoveUpStrategyJsonDeserializer());</span>
+<span class="nc" id="L52">        module.addDeserializer(MoveDownStrategy.class, new MoveDownStrategyJsonDeserializer());</span>
+
+<span class="nc" id="L54">        this.registerModule(module);</span>
+<span class="nc" id="L55">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

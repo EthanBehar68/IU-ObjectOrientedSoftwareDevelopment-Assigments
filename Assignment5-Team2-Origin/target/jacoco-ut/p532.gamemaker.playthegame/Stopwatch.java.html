@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Stopwatch.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">breakout</a> &gt; <a href="index.source.html" class="el_package">p532.gamemaker.playthegame</a> &gt; <span class="el_source">Stopwatch.java</span></div><h1>Stopwatch.java</h1><pre class="source lang-java linenums">package p532.gamemaker.playthegame;
+
+import p532.gamemaker.Constants;
+
+/**
+ * A singleton Stopwatch that can return its current time when it is requested.
+ * Tracks milliseconds when onTick() is called so that it pauses with the game loop.
+ */
+public class Stopwatch implements TickObserver
+{
+<span class="nc" id="L11">    private static long msElapsed = 0;</span>
+
+    /**
+     * A static Stopwatch that can be used instead of the constructor.
+     */
+<span class="nc" id="L16">    public static final Stopwatch instance = new Stopwatch();</span>
+
+    private Stopwatch() {
+    }
+
+    public long getMsElapsed() {
+<span class="nc" id="L22">        return msElapsed;</span>
+    }
+
+    /**
+     * Increases the amount of time elapsed since the start of the game.
+     */
+    @Override
+    public void onTick() {
+<span class="nc" id="L30">        msElapsed += Constants.FRAME_DURATION;</span>
+<span class="nc" id="L31">    }</span>
+
+    public void reset() {
+<span class="nc" id="L34">        msElapsed = 0;</span>
+<span class="nc" id="L35">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

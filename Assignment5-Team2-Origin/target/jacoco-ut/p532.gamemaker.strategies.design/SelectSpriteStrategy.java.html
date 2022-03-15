@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SelectSpriteStrategy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">breakout</a> &gt; <a href="index.source.html" class="el_package">p532.gamemaker.strategies.design</a> &gt; <span class="el_source">SelectSpriteStrategy.java</span></div><h1>SelectSpriteStrategy.java</h1><pre class="source lang-java linenums">package p532.gamemaker.strategies.design;
+
+import javafx.collections.FXCollections;
+import javafx.scene.Node;
+import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
+import p532.gamemaker.sprite.conditions.CollisionCondition;
+import p532.gamemaker.sprite.conditions.KeyEventCondition;
+import p532.gamemaker.strategies.GeneralStrategy;
+import p532.gamemaker.strategies.StrategyOptions;
+import p532.gamemaker.views.ColorPickerComponentLoader;
+import p532.gamemaker.views.ConditionComponent;
+import p532.gamemaker.views.KeyEventConditionComponent;
+import p532.gamemaker.views.PropertiesPanel;
+import p532.gamemaker.sprite.Sprite;
+import p532.gamemaker.controllers.ParentWindow;
+import p532.gamemaker.sprite.UpdateSpriteAdapter;
+
+import static p532.gamemaker.sprite.PropertyType.MouseEventComponent;
+import static p532.gamemaker.sprite.PropertyType.StandardPropertyComponent;
+
+
+/**
+ * This is a kind of controller or presenter for the PropertiesPanel view.
+ * It determines what components should be placed onto the view
+ * and how the selected Sprite should be updated as the user interacts with the UI.
+ */
+public class SelectSpriteStrategy
+{
+    private SelectSpriteStrategy() {}
+
+    public static void execute(Sprite sprite)
+    {
+        //Tell SpritePresenter to keep a reference to this Sprite
+<span class="nc" id="L35">        ParentWindow.getGameDesignScene().getSpritePresenter().setSelectedSprite(sprite);</span>
+
+        //Select the properties component within game editor scene
+<span class="nc" id="L38">        PropertiesPanel propertiesBox = ParentWindow.getGameDesignScene().getPropertiesPanel();</span>
+
+        //Remove all current property components
+<span class="nc" id="L41">        propertiesBox.clear();</span>
+
+        //Add the property components that are common among all Sprites
+<span class="nc" id="L44">        addBasicSpriteViewFields(propertiesBox, sprite);</span>
+        //Add property components specific to the SpriteView type
+<span class="nc" id="L46">        sprite.getView().addPropertyFields(sprite, propertiesBox);</span>
+
+        //Add condition components
+<span class="nc" id="L49">        addOnHitSomethingConditions(sprite);</span>
+<span class="nc" id="L50">        addOnGetHitSomethingConditions(sprite);</span>
+<span class="nc" id="L51">        addOnKeyPressConditions(sprite);</span>
+<span class="nc" id="L52">    }</span>
+
+    public static void addBasicSpriteViewFields(PropertiesPanel propertiesBox, Sprite sprite)
+    {
+        //Add a property component for customizable parts of the Sprite...
+
+        //User-defined Type
+<span class="nc" id="L59">        propertiesBox.addStringPropertyComponent(&quot;Type&quot;, sprite.getUserDefinedType(), StandardPropertyComponent, new UpdateSpriteAdapter() {</span>
+            @Override
+            public void updateStringField(String newValue) {
+<span class="nc" id="L62">                super.updateStringField(newValue);</span>
+<span class="nc" id="L63">                sprite.setUserDefinedType(newValue);</span>
+<span class="nc" id="L64">            }</span>
+        });
+
+        //x
+<span class="nc" id="L68">        propertiesBox.addDoublePropertyComponent(&quot;X Position&quot;, sprite.getX(), StandardPropertyComponent, new UpdateSpriteAdapter() {</span>
+            @Override
+            public void updateDoubleField(Double newValue) {
+<span class="nc" id="L71">                super.updateDoubleField(newValue);</span>
+<span class="nc" id="L72">                sprite.getView().setLayoutX(newValue);</span>
+<span class="nc" id="L73">            }</span>
+        });
+
+        //x
+<span class="nc" id="L77">        propertiesBox.addDoublePropertyComponent(&quot;Y Position&quot;, sprite.getY(), StandardPropertyComponent, new UpdateSpriteAdapter() {</span>
+            @Override
+            public void updateDoubleField(Double newValue) {
+<span class="nc" id="L80">                super.updateDoubleField(newValue);</span>
+<span class="nc" id="L81">                sprite.getView().setLayoutY(newValue);</span>
+<span class="nc" id="L82">            }</span>
+        });
+
+        //x-velocity
+<span class="nc" id="L86">        propertiesBox.addDoublePropertyComponent(&quot;X Velocity&quot;, sprite.getVelocityX(), StandardPropertyComponent, new UpdateSpriteAdapter() {</span>
+            @Override
+            public void updateDoubleField(Double newValue) {
+<span class="nc" id="L89">                super.updateDoubleField(newValue);</span>
+<span class="nc" id="L90">                sprite.setVelocityX(newValue);</span>
+<span class="nc" id="L91">            }</span>
+        });
+
+        //y-velocity
+<span class="nc" id="L95">        propertiesBox.addDoublePropertyComponent(&quot;Y Velocity&quot;, sprite.getVelocityY(), StandardPropertyComponent, new UpdateSpriteAdapter() {</span>
+            @Override
+            public void updateDoubleField(Double newValue) {
+<span class="nc" id="L98">                super.updateDoubleField(newValue);</span>
+<span class="nc" id="L99">                sprite.setVelocityY(newValue);</span>
+<span class="nc" id="L100">            }</span>
+        });
+
+        //onMouseClick
+<span class="nc" id="L104">        propertiesBox.addComboBoxPropertyComponent(</span>
+                &quot;onMouseClick&quot;,
+<span class="nc" id="L106">                sprite.getMouseClickStrategy(),</span>
+                MouseEventComponent,
+<span class="nc" id="L108">                new UpdateSpriteAdapter() {</span>
+                    @Override
+                    public void updateStrategy(GeneralStrategy newValue) {
+<span class="nc" id="L111">                        super.updateStrategy(newValue);</span>
+<span class="nc" id="L112">                        sprite.setMouseClickStrategy(newValue);</span>
+<span class="nc" id="L113">                    }</span>
+                },
+                StrategyOptions.ALL_MOUSE_EVENT_STRATEGIES
+        );
+
+        //onMouseEnter
+<span class="nc" id="L119">        propertiesBox.addComboBoxPropertyComponent(</span>
+                &quot;onMouseEnter&quot;,
+<span class="nc" id="L121">                sprite.getMouseEnterStrategy(),</span>
+                MouseEventComponent,
+<span class="nc" id="L123">                new UpdateSpriteAdapter() {</span>
+                    @Override
+                    public void updateStrategy(GeneralStrategy newValue) {
+<span class="nc" id="L126">                        super.updateStrategy(newValue);</span>
+<span class="nc" id="L127">                        sprite.setMouseEnterStrategy(newValue);</span>
+<span class="nc" id="L128">                    }</span>
+                },
+                StrategyOptions.ALL_MOUSE_EVENT_STRATEGIES
+        );
+
+        //onMouseExit
+<span class="nc" id="L134">        propertiesBox.addComboBoxPropertyComponent(</span>
+                &quot;onMouseExit&quot;,
+<span class="nc" id="L136">                sprite.getMouseExitStrategy(),</span>
+                MouseEventComponent,
+<span class="nc" id="L138">                new UpdateSpriteAdapter() {</span>
+                    @Override
+                    public void updateStrategy(GeneralStrategy newValue) {
+<span class="nc" id="L141">                        super.updateStrategy(newValue);</span>
+<span class="nc" id="L142">                        sprite.setMouseExitStrategy(newValue);</span>
+<span class="nc" id="L143">                    }</span>
+                },
+                StrategyOptions.ALL_MOUSE_EVENT_STRATEGIES
+        );
+
+        //Colors -- Create a ColorPickerComponent first
+<span class="nc" id="L149">        Node colorPickerComponent = ColorPickerComponentLoader.create(</span>
+<span class="nc" id="L150">                (Color) sprite.getView().getFill(), //use the Sprite's current color as the initial value</span>
+<span class="nc" id="L151">                new UpdateSpriteAdapter() {</span>
+                    @Override
+                    public void updateColor(Color color) {
+<span class="nc" id="L154">                        super.updateColor(color);</span>
+<span class="nc" id="L155">                        sprite.getView().setFill(color);</span>
+<span class="nc" id="L156">                    }</span>
+                }
+        );
+        //Then add it to the panel
+<span class="nc" id="L160">        propertiesBox.addNode(colorPickerComponent, StandardPropertyComponent);</span>
+<span class="nc" id="L161">    }</span>
+
+
+
+    private static void addOnHitSomethingConditions(Sprite sprite)
+    {
+        //Select the VBox that the conditions will be placed into
+<span class="nc" id="L168">        VBox vBox = ParentWindow.getGameDesignScene().getPropertiesPanel().getVboxOnHitSomethingConditions();</span>
+
+        //Display each condition from the sprite as a component
+<span class="nc bnc" id="L171" title="All 2 branches missed.">        for (CollisionCondition condition : sprite.getOnHitSomethingConditionList())</span>
+        {
+            //Create (load in) a ConditionComponent
+<span class="nc" id="L174">            ConditionComponent conditionComponent = new ConditionComponent();</span>
+<span class="nc" id="L175">            conditionComponent.setup(condition, FXCollections.observableArrayList(StrategyOptions.ALL_COLLISION_STRATEGIES));</span>
+
+            //Add the ConditionComponent to the appropriate VBox group
+<span class="nc" id="L178">            vBox.getChildren().add(conditionComponent.getView());</span>
+<span class="nc" id="L179">        }</span>
+<span class="nc" id="L180">    }</span>
+
+    private static void addOnGetHitSomethingConditions(Sprite sprite)
+    {
+        //Select the VBox that the conditions will be placed into
+<span class="nc" id="L185">        VBox vBox = ParentWindow.getGameDesignScene().getPropertiesPanel().getVboxOnGetHitConditions();</span>
+
+        //Display each condition from the sprite as a component
+<span class="nc bnc" id="L188" title="All 2 branches missed.">        for (CollisionCondition condition : sprite.getOnGetHitConditionList())</span>
+        {
+            //Create (load in) a ConditionComponent
+<span class="nc" id="L191">            ConditionComponent conditionComponent = new ConditionComponent();</span>
+<span class="nc" id="L192">            conditionComponent.setup(condition, FXCollections.observableArrayList(StrategyOptions.ALL_COLLISION_STRATEGIES));</span>
+
+            //Add the ConditionComponent to the appropriate VBox group
+<span class="nc" id="L195">            vBox.getChildren().add(conditionComponent.getView());</span>
+<span class="nc" id="L196">        }</span>
+<span class="nc" id="L197">    }</span>
+
+    private static void addOnKeyPressConditions(Sprite sprite)
+    {
+        //Select the VBox that the conditions will be placed into
+<span class="nc" id="L202">        VBox vBox = ParentWindow.getGameDesignScene().getPropertiesPanel().getVboxOnKeyPressConditions();</span>
+
+        //Display each condition from the sprite as a component
+<span class="nc bnc" id="L205" title="All 2 branches missed.">        for (KeyEventCondition condition : sprite.getOnKeyPressConditionList())</span>
+        {
+            //Create (load in) a ConditionComponent
+<span class="nc" id="L208">            KeyEventConditionComponent conditionComponent = new KeyEventConditionComponent();</span>
+<span class="nc" id="L209">            conditionComponent.setup(condition, FXCollections.observableArrayList(StrategyOptions.ALL_KEY_EVENT_STRATEGIES));</span>
+
+            //Add the ConditionComponent to the appropriate VBox group
+<span class="nc" id="L212">            vBox.getChildren().add(conditionComponent.getView());</span>
+<span class="nc" id="L213">        }</span>
+<span class="nc" id="L214">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

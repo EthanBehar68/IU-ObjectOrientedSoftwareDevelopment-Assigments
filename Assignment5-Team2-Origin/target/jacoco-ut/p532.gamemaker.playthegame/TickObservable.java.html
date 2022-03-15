@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TickObservable.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">breakout</a> &gt; <a href="index.source.html" class="el_package">p532.gamemaker.playthegame</a> &gt; <span class="el_source">TickObservable.java</span></div><h1>TickObservable.java</h1><pre class="source lang-java linenums">package p532.gamemaker.playthegame;
+
+import p532.gamemaker.Constants;
+import p532.gamemaker.sprite.Sprite;
+import p532.gamemaker.utility.CollisionDetectionUtility;
+
+import java.util.LinkedList;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+/**
+ * When the user desires to play the game, this manages
+ * what happens during each tick (game loop).
+ */
+public class TickObservable
+{
+    //All game objects
+<span class="nc" id="L19">    private final LinkedList&lt;Sprite&gt; allSprites = new LinkedList&lt;Sprite&gt;();</span>
+<span class="nc" id="L20">    private final LinkedList&lt;TickObserver&gt; otherObservers = new LinkedList&lt;&gt;(); //these do not experience collisions</span>
+
+    //Game loop scheduler
+<span class="nc" id="L23">    private ScheduledExecutorService executorService = null;</span>
+
+    //Logical control for pause behavior
+<span class="nc" id="L26">    private boolean paused = false;</span>
+
+<span class="nc" id="L28">    public TickObservable() {</span>
+<span class="nc" id="L29">    }</span>
+
+    /**
+     * Adds the input Sprite as an observer of ticks.
+     * The Sprite will have its onTick() method called, and it
+     * will be checked for collisions.
+     * @param newSprite the Sprite to register
+     */
+    public void registerSprite(Sprite newSprite)
+    {
+<span class="nc" id="L39">        allSprites.add(newSprite);</span>
+<span class="nc" id="L40">    }</span>
+
+    /**
+     * Adds the input object as an observer of ticks.
+     * It will have its onTick() method called for every tick, but
+     * it will NOT be checked for collisions.
+     * If the observer, is a Sprite, please see registerSprite(...).
+     * @param observer object to register
+     */
+    public void registerObserver(TickObserver observer)
+    {
+<span class="nc" id="L51">        otherObservers.add(observer);</span>
+<span class="nc" id="L52">    }</span>
+
+    public void unregisterAll()
+    {
+<span class="nc" id="L56">        allSprites.clear();</span>
+<span class="nc" id="L57">        otherObservers.clear();</span>
+<span class="nc" id="L58">    }</span>
+
+    public boolean isPaused()
+    {
+<span class="nc" id="L62">        return this.paused;</span>
+    }
+
+    public void pause()
+    {
+<span class="nc" id="L67">        this.paused = true;</span>
+<span class="nc" id="L68">    }</span>
+
+    public void unpause()
+    {
+<span class="nc" id="L72">        this.paused = false;</span>
+<span class="nc" id="L73">    }</span>
+
+    public void initiateGameLoop()
+    {
+        //Schedule the game logic task to occur every frame
+<span class="nc" id="L78">        executorService = Executors.newSingleThreadScheduledExecutor();</span>
+<span class="nc" id="L79">        final long INITIAL_DELAY = 500;</span>
+<span class="nc" id="L80">        executorService.scheduleAtFixedRate(this::doFrameLogic, INITIAL_DELAY, Constants.FRAME_DURATION, TimeUnit.MILLISECONDS);</span>
+<span class="nc" id="L81">        paused = false;</span>
+<span class="nc" id="L82">    }</span>
+
+
+    private void doFrameLogic()
+    {
+        //While paused, do the pause behavior instead.
+<span class="nc bnc" id="L88" title="All 2 branches missed.">        if (isPaused())</span>
+        {
+<span class="nc" id="L90">            doPauseBehavior();</span>
+<span class="nc" id="L91">            return;</span>
+        }
+        //While not paused, do the below code.
+
+        //Trigger collisions
+<span class="nc" id="L96">        CollisionDetectionUtility.checkForCollisions(allSprites);</span>
+
+        //Notify sprites of ticks so that they move or do whatever they need to do.
+<span class="nc bnc" id="L99" title="All 2 branches missed.">        for (Sprite sprite : allSprites)</span>
+        {
+<span class="nc" id="L101">            sprite.onTick();</span>
+<span class="nc" id="L102">        }</span>
+        //Notify all non-sprites of ticks
+<span class="nc bnc" id="L104" title="All 2 branches missed.">        for (TickObserver observer : otherObservers)</span>
+        {
+<span class="nc" id="L106">            observer.onTick();</span>
+<span class="nc" id="L107">        }</span>
+<span class="nc" id="L108">    }</span>
+
+    private static void doPauseBehavior()
+    {
+        /*/Draw a paused message
+        final int FONT_SIZE = 36;
+        GraphicsContext gc = GameWindow.getGraphicsContext();
+        gc.setFont(new Font(FONT_SIZE)); //set font size
+        int x = GameWindow.getWindowWidth()/2;
+        int y = GameWindow.getWindowHeight()/2;
+        gc.fillText(&quot;Paused&quot;, x - FONT_SIZE, y);*/
+<span class="nc" id="L119">    }</span>
+
+    public void stopGameLoop()
+    {
+        //Terminate game loop runner
+<span class="nc bnc" id="L124" title="All 2 branches missed.">        if (executorService != null)</span>
+<span class="nc" id="L125">            executorService.shutdown();</span>
+<span class="nc" id="L126">        paused = true;</span>
+<span class="nc" id="L127">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

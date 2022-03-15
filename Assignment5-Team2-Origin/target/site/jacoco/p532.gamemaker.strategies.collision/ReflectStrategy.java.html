@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ReflectStrategy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">breakout</a> &gt; <a href="index.source.html" class="el_package">p532.gamemaker.strategies.collision</a> &gt; <span class="el_source">ReflectStrategy.java</span></div><h1>ReflectStrategy.java</h1><pre class="source lang-java linenums">package p532.gamemaker.strategies.collision;
+
+
+import p532.gamemaker.sprite.Sprite;
+
+<span class="nc" id="L6">public class ReflectStrategy implements CollisionStrategy</span>
+{
+    private final static int MAX_SPEED_INCREASE = 2; //exclusive
+    /**
+     * A static ReflectStrategy that can be used instead of the constructor.
+     */
+<span class="nc" id="L12">    public static final ReflectStrategy instance = new ReflectStrategy();</span>
+
+    @Override
+    public void doCollisionBehavior(Sprite colliderOrImpactee, CollisionType collisionType)
+    {
+        //Define some abbreviations
+<span class="nc" id="L18">        double colliderVelX = colliderOrImpactee.getVelocityX();</span>
+<span class="nc" id="L19">        double colliderVelY = colliderOrImpactee.getVelocityY();</span>
+
+        //Check where the collider hit the impactee
+<span class="nc bnc" id="L22" title="All 4 branches missed.">        if (collisionType == CollisionType.TopImpact || collisionType == CollisionType.BottomImpact)</span>
+        {
+            //ReflectStrategy the collider in the opposite direction
+<span class="nc" id="L25">            double yVelocityAdjustment = -2 * colliderVelY; //TODO</span>
+<span class="nc" id="L26">            colliderOrImpactee.setVelocityY(colliderVelY + yVelocityAdjustment);</span>
+            /*
+             Angle adjustment:
+             The x-velocity can increase in speed by as much as MAX_REFLECT_ANGLE_RANGE.
+             */
+<span class="nc" id="L31">            int reflectAngle = (int)(Math.random() * MAX_SPEED_INCREASE);</span>
+<span class="nc bnc" id="L32" title="All 2 branches missed.">            if (colliderVelX &lt; 0)</span>
+<span class="nc" id="L33">                reflectAngle *= -1; //makes negative x-velocities speed up</span>
+<span class="nc" id="L34">            colliderOrImpactee.setVelocityX(colliderVelX + reflectAngle);</span>
+
+            //Track this reflection as part of the frame history
+            //by saving a reference to the velocity adjustments and the BreakOutObject changed
+            //recordCommand(colliderOrImpactee, reflectAngle, yVelocityAdjustment);
+            //recordCommand(colliderOrImpactee, colliderVelX, colliderVelY);
+<span class="nc" id="L40">        }</span>
+<span class="nc bnc" id="L41" title="All 4 branches missed.">        else if (collisionType == CollisionType.LeftImpact || collisionType == CollisionType.RightImpact)</span>
+        {
+            //ReflectStrategy the collider in the opposite direction
+<span class="nc" id="L44">            double xVelocityAdjustment = -2 * colliderVelX;</span>
+<span class="nc" id="L45">            colliderOrImpactee.setVelocityX(colliderVelX + xVelocityAdjustment);</span>
+            /*
+             Angle adjustment:
+             The y-velocity can increase in speed by as much as MAX_REFLECT_ANGLE_RANGE.
+             */
+<span class="nc" id="L50">            int reflectAngle = (int)(Math.random() * MAX_SPEED_INCREASE);</span>
+<span class="nc bnc" id="L51" title="All 2 branches missed.">            if (colliderVelY &lt; 0)</span>
+<span class="nc" id="L52">                reflectAngle *= -1; //makes negative y-velocities speed up</span>
+<span class="nc" id="L53">            colliderOrImpactee.setVelocityY(colliderVelY + reflectAngle);</span>
+
+            //Track this reflection as part of the frame history
+            //by saving a reference to the velocity adjustments and the BreakOutObject changed
+            //recordCommand(colliderOrImpactee, xVelocityAdjustment, reflectAngle);
+            //recordCommand(colliderOrImpactee, colliderVelX, colliderVelY);
+<span class="nc" id="L59">        }</span>
+        else
+<span class="nc" id="L61">            throw new IllegalArgumentException(&quot;CollisionType unknown or invalid.&quot;);</span>
+<span class="nc" id="L62">    }</span>
+
+    /*private void recordCommand(BreakOutObject collider, double previousVelX, double previousVelY)
+    {
+        //Create a Command to record the result of the reflection
+        Command commandExecuted = new ReflectCommand(collider, previousVelX, previousVelY);
+        //Save the command to the frame that this reflection happened in.
+        commandExecuted.saveToFrame();
+    }*/
+
+    @Override
+    public String toString() {
+<span class="nc" id="L74">        return &quot;Reflect&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

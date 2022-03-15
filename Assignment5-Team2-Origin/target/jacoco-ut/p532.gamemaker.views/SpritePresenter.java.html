@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SpritePresenter.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">breakout</a> &gt; <a href="index.source.html" class="el_package">p532.gamemaker.views</a> &gt; <span class="el_source">SpritePresenter.java</span></div><h1>SpritePresenter.java</h1><pre class="source lang-java linenums">package p532.gamemaker.views;
+
+import javafx.application.Platform;
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+import p532.gamemaker.sprite.Level;
+import p532.gamemaker.sprite.Sprite;
+
+/**
+ * Holds a reference to the Level being displayed.
+ * When the Level changes, replaces all Sprites on the display
+ * with the new Level's list of Sprites.
+ */
+public class SpritePresenter
+{
+    private Scene scene;
+    private Level level; //holds all the sprites for one level
+<span class="nc" id="L19">    private Sprite selectedSprite = null;</span>
+
+<span class="nc" id="L21">    public SpritePresenter(Scene scene) {</span>
+<span class="nc" id="L22">        this.scene = scene;</span>
+<span class="nc" id="L23">        this.level = new Level();</span>
+<span class="nc" id="L24">    }</span>
+
+    public Scene getScene() {
+<span class="nc" id="L27">        return scene;</span>
+    }
+
+    public Sprite getSelectedSprite() {
+<span class="nc" id="L31">        return selectedSprite;</span>
+    }
+
+    public void setSelectedSprite(Sprite selectedSprite) {
+<span class="nc" id="L35">        this.selectedSprite = selectedSprite;</span>
+<span class="nc" id="L36">    }</span>
+
+    public Level getLevel() {
+<span class="nc" id="L39">        return level;</span>
+    }
+
+    /**
+     * Changes the active Level, removes all current Sprites from the display,
+     * and adds all Sprites from the new level to the display.
+     * @param level a non-null Level that contains a collection
+     *              of Sprites.
+     */
+    public void setLevel(Level level)
+    {
+<span class="nc" id="L50">        this.level = level;</span>
+
+        //Clear all existing sprites from the display
+<span class="nc" id="L53">        AnchorPane paneGameRoot = findGameRoot();</span>
+<span class="nc" id="L54">        paneGameRoot.getChildren().clear();</span>
+        //Add all sprites from the level to the display
+<span class="nc bnc" id="L56" title="All 2 branches missed.">        for (Sprite sprite : level.getAllSprites())</span>
+        {
+<span class="nc" id="L58">            paneGameRoot.getChildren().add(sprite.getView().getNode());</span>
+<span class="nc" id="L59">        }</span>
+<span class="nc" id="L60">    }</span>
+
+
+
+
+
+    private AnchorPane findGameRoot()
+    {
+        //Select the AnchorPane that contains all the Sprites from the scene
+<span class="nc" id="L69">        return (AnchorPane) scene.lookup(&quot;#paneGameRoot&quot;);</span>
+    }
+
+    /**
+     * Places a Sprite onto the AnchorPane, making
+     * it visible.
+     */
+    public void addSprite(Sprite sprite)
+    {
+        //Put the Sprite onto the display
+<span class="nc" id="L79">        AnchorPane paneGameRoot = findGameRoot();</span>
+<span class="nc" id="L80">        paneGameRoot.getChildren().add(sprite.getView().getNode());</span>
+<span class="nc" id="L81">    }</span>
+
+    /**
+     * Removes the Sprite from both the active Level
+     * and the display.
+     * @param sprite the Sprite to remove
+     */
+    public void removeSprite(Sprite sprite)
+    {
+        //Remove the Sprite from the display
+<span class="nc" id="L91">        AnchorPane paneGameRoot = findGameRoot();</span>
+<span class="nc" id="L92">        Platform.runLater(() -&gt; {</span>
+<span class="nc" id="L93">            paneGameRoot.getChildren().remove(sprite.getView().getNode());</span>
+<span class="nc" id="L94">        });</span>
+
+        //Remove the Sprite from the level
+<span class="nc" id="L97">        this.level.getAllSprites().remove(sprite);</span>
+<span class="nc" id="L98">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SetUpGameUI.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">breakout</a> &gt; <a href="index.source.html" class="el_package">p532.gamemkaer.game</a> &gt; <span class="el_source">SetUpGameUI.java</span></div><h1>SetUpGameUI.java</h1><pre class="source lang-java linenums">package p532.gamemkaer.game;
+
+import java.util.Optional;
+
+import javafx.scene.Scene;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextInputDialog;
+import javafx.scene.layout.AnchorPane;
+import p532.gamemaker.sprite.Sprite;
+
+
+public class SetUpGameUI {
+	
+<span class="nc" id="L14">    private Label label=new Label();</span>
+<span class="nc" id="L15">    private String  gameName=&quot;&quot;,levelname=&quot;&quot;;</span>
+    private Scene scene;
+    
+    public SetUpGameUI(Scene scene)
+<span class="nc" id="L19">    {</span>
+<span class="nc" id="L20">    	this.scene=scene;</span>
+        
+<span class="nc" id="L22">    }</span>
+	public  String  setGameName()
+	{
+<span class="nc" id="L25">		TextInputDialog dialog = new TextInputDialog(&quot;&quot;);</span>
+
+<span class="nc" id="L27">    	dialog.setTitle(&quot;New Game&quot;);</span>
+<span class="nc" id="L28">    	dialog.setHeaderText(&quot;Give a name to your Game &quot;);</span>
+<span class="nc" id="L29">    	dialog.setContentText(&quot;Name:&quot;);</span>
+
+<span class="nc" id="L31">    	Optional&lt;String&gt; result = dialog.showAndWait();</span>
+<span class="nc bnc" id="L32" title="All 2 branches missed.">    	 if(result.isPresent())</span>
+    	 {
+<span class="nc" id="L34">    		 gameName=result.get();</span>
+    	 }
+    	 
+<span class="nc" id="L37">    	 return gameName;</span>
+	}
+	
+	
+	public  String  setLevel()
+	{
+<span class="nc" id="L43">		TextInputDialog dialog = new TextInputDialog(&quot;&quot;);</span>
+
+<span class="nc" id="L45">    	dialog.setTitle(&quot;New Level&quot;);</span>
+<span class="nc" id="L46">    	dialog.setHeaderText(&quot;Set up new Level &quot;);</span>
+<span class="nc" id="L47">    	dialog.setContentText(&quot;Level Name:&quot;);</span>
+
+<span class="nc" id="L49">    	Optional&lt;String&gt; result = dialog.showAndWait();</span>
+
+<span class="nc bnc" id="L51" title="All 2 branches missed.">    	if(result.isPresent())</span>
+   	 	{
+<span class="nc" id="L53">    		levelname=result.get();</span>
+   	 	}
+    	
+<span class="nc" id="L56">    	return levelname;</span>
+	}
+	
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

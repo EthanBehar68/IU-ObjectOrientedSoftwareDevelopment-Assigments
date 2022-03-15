@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GameRectangle.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">breakout</a> &gt; <a href="index.source.html" class="el_package">p532.gamemaker.sprite</a> &gt; <span class="el_source">GameRectangle.java</span></div><h1>GameRectangle.java</h1><pre class="source lang-java linenums">package p532.gamemaker.sprite;
+
+import javafx.scene.Node;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
+import p532.gamemaker.views.PropertiesPanel;
+
+import static p532.gamemaker.sprite.PropertyType.StandardPropertyComponent;
+
+public class GameRectangle extends Rectangle implements SpriteView
+{
+<span class="fc" id="L12">    public GameRectangle() {</span>
+<span class="fc" id="L13">    }</span>
+
+    @Override
+    public double getSpriteWidth() {
+<span class="nc" id="L17">        return this.getWidth();</span>
+    }
+
+    @Override
+    public void setSpriteWidth(double width) {
+<span class="nc" id="L22">        this.setWidth(width);</span>
+<span class="nc" id="L23">    }</span>
+
+    @Override
+    public double getSpriteHeight() {
+<span class="nc" id="L27">        return this.getHeight();</span>
+    }
+
+    @Override
+    public void setSpriteHeight(double height) {
+<span class="nc" id="L32">        this.setHeight(height);</span>
+<span class="nc" id="L33">    }</span>
+
+    @Override
+    public Node getNode() {
+<span class="nc" id="L37">        return this;</span>
+    }
+
+    /////////////////////////////////////////////////////////
+
+    /**
+     * A &quot;constructor&quot; that creates a new Sprite
+     * with default properties.
+     * @return a new Sprite with a GameRectangle view
+     */
+    public static Sprite defaultSprite()
+    {
+        //Create the Sprite and GameRectangle
+<span class="nc" id="L50">        Sprite sprite = new Sprite();</span>
+<span class="nc" id="L51">        GameRectangle spriteView = new GameRectangle();</span>
+<span class="nc" id="L52">        sprite.setView(spriteView);</span>
+
+        //Customize the view
+<span class="nc" id="L55">        spriteView.setWidth(30);</span>
+<span class="nc" id="L56">        spriteView.setHeight(30);</span>
+<span class="nc" id="L57">        spriteView.setLayoutX(100);</span>
+<span class="nc" id="L58">        spriteView.setLayoutY(100);</span>
+<span class="nc" id="L59">        spriteView.setFill(Color.BLUE);</span>
+
+        //Add listeners
+<span class="nc" id="L62">        sprite.setupSpriteForEditor();</span>
+
+<span class="nc" id="L64">        return sprite;</span>
+    }
+
+    /**
+     * Adds property fields specific to GameRectangle instances to the propertiesBox.
+     * @param propertiesBox where the property components will be added
+     */
+    @Override
+    public void addPropertyFields(Sprite parentSprite, PropertiesPanel propertiesBox)
+    {
+        //Width
+<span class="nc" id="L75">        propertiesBox.addDoublePropertyComponent(&quot;Width&quot;, getSpriteWidth(), StandardPropertyComponent, new UpdateSpriteAdapter() {</span>
+            @Override
+            public void updateDoubleField(Double newValue) {
+<span class="nc" id="L78">                super.updateDoubleField(newValue);</span>
+<span class="nc" id="L79">                setSpriteWidth(newValue);</span>
+<span class="nc" id="L80">            }</span>
+        });
+
+        //Height
+<span class="nc" id="L84">        propertiesBox.addDoublePropertyComponent(&quot;Height&quot;, getSpriteHeight(), StandardPropertyComponent, new UpdateSpriteAdapter() {</span>
+            @Override
+            public void updateDoubleField(Double newValue) {
+<span class="nc" id="L87">                super.updateDoubleField(newValue);</span>
+<span class="nc" id="L88">                setSpriteHeight(newValue);</span>
+<span class="nc" id="L89">            }</span>
+        });
+<span class="nc" id="L91">    }</span>
+
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

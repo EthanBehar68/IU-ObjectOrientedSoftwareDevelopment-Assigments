@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>KeyEventNotifier.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">breakout</a> &gt; <a href="index.source.html" class="el_package">p532.gamemaker.playthegame</a> &gt; <span class="el_source">KeyEventNotifier.java</span></div><h1>KeyEventNotifier.java</h1><pre class="source lang-java linenums">package p532.gamemaker.playthegame;
+
+import javafx.event.EventHandler;
+import javafx.scene.Scene;
+import javafx.scene.input.KeyEvent;
+import p532.gamemaker.sprite.Sprite;
+
+import java.util.LinkedList;
+
+public class KeyEventNotifier
+{
+    //All game objects
+<span class="nc" id="L13">    private final LinkedList&lt;KeyEventObserver&gt; observers = new LinkedList&lt;&gt;();</span>
+
+<span class="nc" id="L15">    public KeyEventNotifier(Scene scene) {</span>
+<span class="nc" id="L16">        setup(scene);</span>
+<span class="nc" id="L17">    }</span>
+
+    public void registerSprite(Sprite newSprite)
+    {
+<span class="nc" id="L21">        observers.add(newSprite);</span>
+<span class="nc" id="L22">    }</span>
+
+    private void setup(Scene scene)
+    {
+        //Add key event listener to the (game play) scene
+<span class="nc" id="L27">        scene.setOnKeyPressed(new EventHandler&lt;KeyEvent&gt;() {</span>
+            @Override
+            public void handle(KeyEvent event)
+            {
+                //Notify all observers that a key event occurred
+<span class="nc bnc" id="L32" title="All 2 branches missed.">                for (KeyEventObserver observer : observers)</span>
+                {
+<span class="nc" id="L34">                    observer.notifyOfKeyPressed(event.getCode());</span>
+<span class="nc" id="L35">                }</span>
+<span class="nc" id="L36">            }</span>
+        });
+<span class="nc" id="L38">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

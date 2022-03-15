@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>LoadGameDesignStrategy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">breakout</a> &gt; <a href="index.source.html" class="el_package">p532.gamemaker.strategies.design</a> &gt; <span class="el_source">LoadGameDesignStrategy.java</span></div><h1>LoadGameDesignStrategy.java</h1><pre class="source lang-java linenums">package p532.gamemaker.strategies.design;
+
+import p532.gamemaker.controllers.ParentWindow;
+import p532.gamemaker.sprite.Level;
+import p532.gamemaker.sprite.Sprite;
+import p532.gamemaker.utility.saveload.LoadUtility;
+import p532.gamemaker.views.GameDesignScene;
+
+import java.util.ArrayList;
+
+public class LoadGameDesignStrategy
+{
+    //Prevent instantiation
+    private LoadGameDesignStrategy() {
+    }
+
+    public static ArrayList&lt;Level&gt; execute()
+    {
+        try
+        {
+            //Load data from the save file
+<span class="nc" id="L22">            ArrayList&lt;Level&gt; levelList = LoadUtility.loadEntireGameDesign();</span>
+
+            //If loading successful...
+<span class="nc bnc" id="L25" title="All 4 branches missed.">            if (levelList != null &amp;&amp; !levelList.isEmpty())</span>
+            {
+<span class="nc" id="L27">                GameDesignScene gameDesignScene = ParentWindow.getGameDesignScene();</span>
+                //Add the 1st level to the game play (TEMP)
+<span class="nc" id="L29">                Level level = levelList.get(0);</span>
+
+                //Make each sprite editor-ready (i.e. attach drag-and-drop events, etc.)
+<span class="nc bnc" id="L32" title="All 2 branches missed.">                for (Sprite sprite : level.getAllSprites())</span>
+                {
+<span class="nc" id="L34">                    sprite.setupSpriteForEditor();</span>
+<span class="nc" id="L35">                }</span>
+                
+                //Display the loaded level
+<span class="nc" id="L38">                gameDesignScene.getSpritePresenter().setLevel(level);</span>
+
+<span class="nc" id="L40">                System.out.print(&quot;Successfully loaded in save data.\n&quot;);</span>
+            }
+
+<span class="nc" id="L43">            return levelList;</span>
+        }
+<span class="nc" id="L45">        catch (ClassNotFoundException e)</span>
+        {
+<span class="nc" id="L47">            e.printStackTrace();</span>
+<span class="nc" id="L48">            return null;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

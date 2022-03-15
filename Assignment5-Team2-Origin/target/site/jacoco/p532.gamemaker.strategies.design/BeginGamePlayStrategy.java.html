@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>BeginGamePlayStrategy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">breakout</a> &gt; <a href="index.source.html" class="el_package">p532.gamemaker.strategies.design</a> &gt; <span class="el_source">BeginGamePlayStrategy.java</span></div><h1>BeginGamePlayStrategy.java</h1><pre class="source lang-java linenums">package p532.gamemaker.strategies.design;
+
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import javafx.scene.Parent;
+import javafx.scene.layout.AnchorPane;
+import p532.gamemaker.playthegame.KeyEventNotifier;
+import p532.gamemaker.playthegame.Stopwatch;
+import p532.gamemaker.playthegame.TickObservable;
+import p532.gamemaker.controllers.ParentWindow;
+import p532.gamemaker.sprite.Level;
+import p532.gamemaker.sprite.Sprite;
+import p532.gamemaker.utility.saveload.CustomObjectMapper;
+import p532.gamemaker.utility.saveload.LoadUtility;
+import p532.gamemaker.utility.saveload.SaveUtility;
+import p532.gamemaker.views.GamePlayScene;
+
+import java.util.ArrayList;
+import java.util.List;
+
+<span class="nc" id="L21">public class BeginGamePlayStrategy //implements GeneralStrategy</span>
+{
+    public static void execute()
+    {
+        //Change to the scene that involves playing the game
+<span class="nc" id="L26">        GamePlayScene gamePlayScene = ParentWindow.switchToGamePlayScene();</span>
+        //Find the game loop manager
+<span class="nc" id="L28">        TickObservable loopManager = gamePlayScene.getTickObservable();</span>
+<span class="nc" id="L29">        loopManager.unregisterAll(); //reset it</span>
+        //Find the event notifiers
+<span class="nc" id="L31">        KeyEventNotifier keyEventNotifier = gamePlayScene.getKeyEventNotifier();</span>
+
+        //TODO (Ramya) add support for multiple levels
+        //Use the level that is currently being edited and make it into a list
+<span class="nc" id="L35">        Level levelDesign = ParentWindow.getGameDesignScene().getSpritePresenter().getLevel();</span>
+<span class="nc" id="L36">        ArrayList&lt;Level&gt; levelList = new ArrayList&lt;&gt;();</span>
+<span class="nc" id="L37">        levelList.add(levelDesign);</span>
+
+        //Create a clone of the game
+<span class="nc" id="L40">        List&lt;Level&gt; gameClone = cloneGame(levelList);</span>
+        //Use the clone's first level
+<span class="nc" id="L42">        Level levelClone = gameClone.get(0);</span>
+
+        //Make the clone visible on the playing scene
+<span class="nc" id="L45">        gamePlayScene.getSpritePresenter().setLevel(levelClone);</span>
+
+        //Register the Sprites with the game
+<span class="nc" id="L48">        List&lt;Sprite&gt; spriteList = levelClone.getAllSprites();</span>
+<span class="nc bnc" id="L49" title="All 2 branches missed.">        for (Sprite sprite : spriteList)</span>
+        {
+            //Register the clone to listen to ticks
+<span class="nc" id="L52">            loopManager.registerSprite(sprite);</span>
+            //Register the clone to listen to key events
+<span class="nc" id="L54">            keyEventNotifier.registerSprite(sprite);</span>
+            //Add click events, etc to the clone
+<span class="nc" id="L56">            sprite.setupSpriteForGamePlay();</span>
+<span class="nc" id="L57">        }</span>
+
+        //Start the Stopwatch
+<span class="nc" id="L60">        Stopwatch stopwatch = Stopwatch.instance;</span>
+<span class="nc" id="L61">        stopwatch.reset();</span>
+<span class="nc" id="L62">        loopManager.registerObserver(stopwatch);</span>
+
+        //Start the game loop
+<span class="nc" id="L65">        loopManager.initiateGameLoop();</span>
+<span class="nc" id="L66">    }</span>
+
+    private static List&lt;Level&gt; cloneGame(List&lt;Level&gt; levelList)
+    {
+        //Write the current game to a string through JSON serialization.
+        //The string will serve as the copy of the input game.
+<span class="nc" id="L72">        String gameJson = SaveUtility.serializeGameToJson(levelList);</span>
+
+        //Deserialize the string into a game (level list)
+<span class="nc" id="L75">        List&lt;Level&gt; loadedGame = LoadUtility.deserializeGameFromJson(gameJson);</span>
+
+<span class="nc" id="L77">        return loadedGame;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

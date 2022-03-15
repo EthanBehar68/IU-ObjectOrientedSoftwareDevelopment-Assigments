@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>GameLabel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">breakout</a> &gt; <a href="index.source.html" class="el_package">p532.gamemaker.sprite</a> &gt; <span class="el_source">GameLabel.java</span></div><h1>GameLabel.java</h1><pre class="source lang-java linenums">package p532.gamemaker.sprite;
+
+import javafx.scene.Node;
+import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
+import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+import p532.gamemaker.strategies.DoNothingStrategy;
+import p532.gamemaker.strategies.GeneralStrategy;
+import p532.gamemaker.strategies.StrategyOptions;
+import p532.gamemaker.views.PropertiesPanel;
+
+import java.util.LinkedList;
+
+import static p532.gamemaker.sprite.PropertyType.MouseEventComponent;
+import static p532.gamemaker.sprite.PropertyType.StandardPropertyComponent;
+
+/**
+ * A SpriteView that has a text property.
+ * Since it is not a shape, its width/height setters do nothing
+ * and its get/setFill methods get/set font color.
+ */
+public class GameLabel extends Label implements SpriteView
+{
+    public static final String PLACEHOLDER_TEXT = &quot;Hello&quot;;
+<span class="nc" id="L26">    public static final Font DEFAULT_FONT = new Font(16);</span>
+
+<span class="nc" id="L28">    public GameLabel() {</span>
+<span class="nc" id="L29">    }</span>
+
+    @Override
+    public double getSpriteWidth() {
+<span class="nc" id="L33">        return this.getWidth();</span>
+    }
+
+    @Override
+    public void setSpriteWidth(double width) {
+        //Do nothing -- setWidth() is handled by JavaFX
+<span class="nc" id="L39">    }</span>
+
+    @Override
+    public double getSpriteHeight() {
+<span class="nc" id="L43">        return this.getHeight();</span>
+    }
+
+    @Override
+    public void setSpriteHeight(double height) {
+        //Do nothing -- setHeight() is handled by JavaFX
+<span class="nc" id="L49">    }</span>
+
+    /**
+     * Get the font color
+     */
+    @Override
+    public Paint getFill() {
+<span class="nc" id="L56">        return this.getTextFill();</span>
+    }
+
+    /**
+     * Change the font color
+     */
+    @Override
+    public void setFill(Paint value) {
+<span class="nc" id="L64">        this.setTextFill(value);</span>
+<span class="nc" id="L65">    }</span>
+
+    @Override
+    public Node getNode() {
+<span class="nc" id="L69">        return this;</span>
+
+        /*Label testLabel = new Label();
+        testLabel.setText(&quot;This is a test. TEMP&quot;);
+        return testLabel;*/
+    }
+
+    /////////////////////////////////////////////////////////
+
+    /**
+     * A &quot;constructor&quot; that creates a new Sprite
+     * with default properties.
+     * @return a new Sprite with a GameLabel view
+     */
+    public static Sprite defaultSprite()
+    {
+        //Create the Sprite and GameLabel
+<span class="nc" id="L86">        Sprite sprite = new Sprite();</span>
+<span class="nc" id="L87">        GameLabel spriteView = new GameLabel();</span>
+<span class="nc" id="L88">        sprite.setView(spriteView);</span>
+
+        //Customize the view
+<span class="nc" id="L91">        spriteView.setLayoutX(200);</span>
+<span class="nc" id="L92">        spriteView.setLayoutY(200);</span>
+<span class="nc" id="L93">        spriteView.setFill(Color.BLACK);</span>
+<span class="nc" id="L94">        spriteView.setText(PLACEHOLDER_TEXT);</span>
+<span class="nc" id="L95">        spriteView.setFont(DEFAULT_FONT);</span>
+
+        //Add listeners
+<span class="nc" id="L98">        sprite.setupSpriteForEditor();</span>
+
+<span class="nc" id="L100">        return sprite;</span>
+    }
+
+    /**
+     * Adds property fields specific to GameLabel instances to the propertiesBox.
+     * @param propertiesBox where the property components will be added
+     */
+    public void addPropertyFields(Sprite parentSprite, PropertiesPanel propertiesBox)
+    {
+        //Add a property component for customizable parts of the Sprite...
+
+        //Text
+<span class="nc" id="L112">        propertiesBox.addStringPropertyComponent(&quot;Initial Text&quot;, getText(), StandardPropertyComponent, new UpdateSpriteAdapter() {</span>
+            @Override
+            public void updateStringField(String newValue) {
+<span class="nc" id="L115">                super.updateStringField(newValue);</span>
+<span class="nc" id="L116">                setText(newValue);</span>
+<span class="nc" id="L117">            }</span>
+        });
+
+        //onTick
+<span class="nc" id="L121">        propertiesBox.addComboBoxPropertyComponent(</span>
+                &quot;Should the Text Change?&quot;,
+<span class="nc" id="L123">                parentSprite.getOnTickStrategy(),</span>
+                StandardPropertyComponent,
+<span class="nc" id="L125">                new UpdateSpriteAdapter() {</span>
+                    @Override
+                    public void updateStrategy(GeneralStrategy newValue) {
+<span class="nc" id="L128">                        super.updateStrategy(newValue);</span>
+<span class="nc" id="L129">                        parentSprite.setOnTickStrategy(newValue);</span>
+<span class="nc" id="L130">                    }</span>
+                },
+                StrategyOptions.GAMELABEL_ON_TICK_STRATEGIES
+        );
+<span class="nc" id="L134">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

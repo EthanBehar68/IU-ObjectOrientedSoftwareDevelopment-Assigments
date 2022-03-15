@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CollisionDetectionUtility.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">breakout</a> &gt; <a href="index.source.html" class="el_package">p532.gamemaker.utility</a> &gt; <span class="el_source">CollisionDetectionUtility.java</span></div><h1>CollisionDetectionUtility.java</h1><pre class="source lang-java linenums">package p532.gamemaker.utility;
+
+import p532.gamemaker.sprite.Sprite;
+import p532.gamemaker.strategies.collision.CollisionType;
+
+import java.util.Iterator;
+import java.util.List;
+
+<span class="nc" id="L9">public class CollisionDetectionUtility</span>
+{
+    /**
+     * Determines the collision type by checking where the collision happened.
+     * No collision occurs if either object is marked as destroyed.
+     * @param impactee the object that collider might be hitting/touching since collider object is moving
+     * @return any one of the possible CollisionTypes.
+     * Ex: Return LeftImpact if the collider hits the impactee's left side.
+     */
+    public static CollisionType checkForCollision(Sprite collider, Sprite impactee)
+    {
+        //If either object is destroyed, there is no collision
+<span class="nc bnc" id="L21" title="All 4 branches missed.">        if (collider.isDestroyed() || impactee.isDestroyed())</span>
+<span class="nc" id="L22">            return CollisionType.NoCollision;</span>
+
+        //Define some abbreviations
+<span class="nc" id="L25">        double colliderX = collider.getX();</span>
+<span class="nc" id="L26">        double colliderY = collider.getY();</span>
+<span class="nc" id="L27">        double impacteeX = impactee.getX();</span>
+<span class="nc" id="L28">        double impacteeY = impactee.getY();</span>
+<span class="nc" id="L29">        double colliderVelX = collider.getVelocityX();</span>
+<span class="nc" id="L30">        double colliderVelY = collider.getVelocityY();</span>
+        //double colliderWidth = collider.getView().getWidth();
+        //double colliderHeight = collider.getView().getHeight();
+<span class="nc" id="L33">        double impacteeWidth = impactee.getView().getSpriteWidth();</span>
+<span class="nc" id="L34">        double impacteeHeight = impactee.getView().getSpriteHeight();</span>
+
+        //If the collider's y-velocity is so fast that it will speed right through the impactee...
+<span class="nc bnc" id="L37" title="All 2 branches missed.">        if (Math.abs(colliderVelY) &gt; impacteeHeight)</span>
+        {
+<span class="nc bnc" id="L39" title="All 4 branches missed.">            if (colliderX &gt;= impacteeX &amp;&amp; colliderX &lt;= impacteeX + impacteeWidth) {</span>
+<span class="nc bnc" id="L40" title="All 4 branches missed.">                if (colliderY &lt; impacteeY &amp;&amp; colliderY + colliderVelY &gt;= impacteeY)</span>
+<span class="nc" id="L41">                    return CollisionType.TopImpact;</span>
+<span class="nc bnc" id="L42" title="All 4 branches missed.">                else if (colliderY &gt; impacteeY &amp;&amp; colliderY + colliderVelY &lt;= impacteeY)</span>
+<span class="nc" id="L43">                    return CollisionType.BottomImpact;</span>
+            }
+        }
+        //If the collider's x-velocity is so fast that it will speed right through the impactee...
+<span class="nc bnc" id="L47" title="All 2 branches missed.">        else if (Math.abs(colliderVelX) &gt; impacteeWidth)</span>
+        {
+<span class="nc bnc" id="L49" title="All 4 branches missed.">            if (colliderY &gt;= impacteeY &amp;&amp; colliderY &lt;= impacteeY + impacteeHeight) {</span>
+<span class="nc bnc" id="L50" title="All 4 branches missed.">                if (colliderX &lt; impacteeX &amp;&amp; colliderX + colliderVelX &gt;= impacteeX)</span>
+<span class="nc" id="L51">                    return CollisionType.RightImpact;</span>
+<span class="nc bnc" id="L52" title="All 4 branches missed.">                else if (colliderX &gt; impacteeX &amp;&amp; colliderX + colliderVelX &lt;= impacteeX)</span>
+<span class="nc" id="L53">                    return CollisionType.LeftImpact;</span>
+            }
+        }
+
+        //Check if the collider is moving more vertically than horizontally. If so, it may be a vertical impact.
+<span class="nc bnc" id="L58" title="All 2 branches missed.">        if (Math.abs(colliderVelY) - Math.abs(colliderVelX) &gt; 0)</span>
+        {
+            //Return a left or right collision if it is occurring.
+<span class="nc" id="L61">            CollisionType output = checkForVerticalCollision(collider, impactee);</span>
+<span class="nc bnc" id="L62" title="All 2 branches missed.">            if (output != CollisionType.NoCollision)</span>
+<span class="nc" id="L63">                return output;</span>
+                //Collision could instead be horizontal contrary to the prediction
+            else
+<span class="nc" id="L66">                return checkForHorizontalCollision(collider, impactee);</span>
+        }
+        //Else if the collider has more x-velocity than y-velocity, it may be a horizontal impact
+        else
+        {
+            //Return a top or bottom collision if it is occurring.
+<span class="nc" id="L72">            CollisionType output = checkForHorizontalCollision(collider, impactee);</span>
+<span class="nc bnc" id="L73" title="All 2 branches missed.">            if (output != CollisionType.NoCollision)</span>
+<span class="nc" id="L74">                return output;</span>
+                //Collision could instead be vertical contrary to the prediction
+            else
+<span class="nc" id="L77">                return checkForVerticalCollision(collider, impactee);</span>
+        }
+    }
+
+
+    private static CollisionType checkForVerticalCollision(Sprite collider, Sprite impactee)
+    {
+        //Define some abbreviations
+<span class="nc" id="L85">        double colliderX = collider.getX();</span>
+<span class="nc" id="L86">        double colliderY = collider.getY();</span>
+<span class="nc" id="L87">        double impacteeX = impactee.getX();</span>
+<span class="nc" id="L88">        double impacteeY = impactee.getY();</span>
+<span class="nc" id="L89">        double colliderWidth = collider.getView().getSpriteWidth(); //TODO this was unused previously; check if produces correct results</span>
+<span class="nc" id="L90">        double colliderHeight = collider.getView().getSpriteHeight();</span>
+<span class="nc" id="L91">        double impacteeWidth = impactee.getView().getSpriteWidth();</span>
+<span class="nc" id="L92">        double impacteeHeight = impactee.getView().getSpriteHeight();</span>
+
+        //Check if the x-coordinate of the collider is inside the impactee
+<span class="nc bnc" id="L95" title="All 4 branches missed.">        if (colliderX &gt;= impacteeX - colliderWidth &amp;&amp; colliderX &lt;= impacteeX + impacteeWidth)</span>
+        {
+            //Check if collider touches the TOP half of the impactee (top collision)
+<span class="nc bnc" id="L98" title="All 4 branches missed.">            if (colliderY + colliderHeight &gt;= impacteeY &amp;&amp; colliderY + colliderHeight &lt;= impacteeY + (impacteeHeight / 2))</span>
+<span class="nc" id="L99">                return CollisionType.TopImpact;</span>
+                //Check if collider touches the BOTTOM half of the impactee (bottom collision)
+<span class="nc bnc" id="L101" title="All 4 branches missed.">            else if (colliderY &gt;= impacteeY + (impacteeHeight / 2) &amp;&amp; colliderY &lt;= impacteeY + impacteeHeight)</span>
+<span class="nc" id="L102">                return CollisionType.BottomImpact;</span>
+        }
+
+        //Default: The objects aren't touching
+<span class="nc" id="L106">        return CollisionType.NoCollision;</span>
+    }
+
+
+    private static CollisionType checkForHorizontalCollision(Sprite collider, Sprite impactee)
+    {
+        //Define some abbreviations
+<span class="nc" id="L113">        double colliderX = collider.getX();</span>
+<span class="nc" id="L114">        double colliderY = collider.getY();</span>
+<span class="nc" id="L115">        double impacteeX = impactee.getX();</span>
+<span class="nc" id="L116">        double impacteeY = impactee.getY();</span>
+<span class="nc" id="L117">        double colliderWidth = collider.getView().getSpriteWidth();</span>
+<span class="nc" id="L118">        double colliderHeight = collider.getView().getSpriteHeight();</span>
+<span class="nc" id="L119">        double impacteeWidth = impactee.getView().getSpriteWidth();</span>
+<span class="nc" id="L120">        double impacteeHeight = impactee.getView().getSpriteHeight();</span>
+
+        //Check if the y-coordinate of the collider is inside the impactee
+<span class="nc bnc" id="L123" title="All 4 branches missed.">        if (colliderY &gt;= impacteeY - colliderHeight &amp;&amp; colliderY &lt;= impacteeY + impacteeHeight)</span>
+        {
+            //Check if collider touches the LEFT half of the impactee (left collision)
+<span class="nc bnc" id="L126" title="All 4 branches missed.">            if (colliderX + colliderWidth &gt;= impacteeX &amp;&amp; colliderX + colliderWidth &lt;= impacteeX + (impacteeWidth / 2))</span>
+<span class="nc" id="L127">                return CollisionType.LeftImpact;</span>
+                //Check if collider touches the RIGHT half of the impactee (right collision)
+<span class="nc bnc" id="L129" title="All 4 branches missed.">            else if (colliderX &gt;= impacteeX + (impacteeWidth / 2) &amp;&amp; colliderX &lt;= impacteeX + impacteeWidth)</span>
+<span class="nc" id="L130">                return CollisionType.RightImpact;</span>
+        }
+
+        //Default: The objects aren't touching
+<span class="nc" id="L134">        return CollisionType.NoCollision;</span>
+    }
+
+
+    /**
+     * Checks each Sprite in the list to see if it collides with (is touching)
+     * any other Sprite in the list. If it is, fires the object's collision behavior methods.
+     * @param allSprites a list of all Sprites in the game
+     *                           that should have their collisions checked
+     */
+    public static void checkForCollisions(List&lt;Sprite&gt; allSprites)
+    {
+        /*
+        Check for collisions...
+        Define two iterators to iterate through allSprites.
+        colliderIterator checks if its object is hitting something else.
+        impacteeIterator checks if its object is being hit.
+         */
+<span class="nc" id="L152">        Iterator&lt;Sprite&gt; colliderIterator = allSprites.listIterator();</span>
+<span class="nc" id="L153">        int i = 0; //index of collider</span>
+<span class="nc" id="L154">        int j = 0; //index of impactee</span>
+<span class="nc bnc" id="L155" title="All 2 branches missed.">        while (colliderIterator.hasNext())</span>
+        {
+            //Pull one object from the iterator
+<span class="nc" id="L158">            Sprite collider = colliderIterator.next();</span>
+
+<span class="nc" id="L160">            Iterator&lt;Sprite&gt; impacteeIterator = allSprites.listIterator();</span>
+<span class="nc bnc" id="L161" title="All 2 branches missed.">            while (impacteeIterator.hasNext())</span>
+            {
+<span class="nc" id="L163">                Sprite impactee = impacteeIterator.next();</span>
+                //Make sure collider != impactee
+<span class="nc bnc" id="L165" title="All 2 branches missed.">                if (i != j)</span>
+                {
+                    //Check for the collision
+<span class="nc" id="L168">                    CollisionType collisionType = CollisionDetectionUtility.checkForCollision(collider, impactee);</span>
+<span class="nc bnc" id="L169" title="All 2 branches missed.">                    if (collisionType != CollisionType.NoCollision) {</span>
+                        //Fire the collision events
+<span class="nc" id="L171">                        collider.onHitSomething(impactee, collisionType);</span>
+<span class="nc" id="L172">                        impactee.onGetHit(collider, collisionType);</span>
+                    }
+                }
+<span class="nc" id="L175">                j++; //Update impactee index</span>
+<span class="nc" id="L176">            }</span>
+<span class="nc" id="L177">            i++; //Update collider index</span>
+<span class="nc" id="L178">        }</span>
+<span class="nc" id="L179">    }</span>
+    
+    
+    public static CollisionType getcheckForHorizontalCollision(Sprite collider, Sprite impactee)
+    {
+<span class="nc" id="L184">    	return checkForHorizontalCollision(collider,impactee);</span>
+    }
+    
+    public static CollisionType getcheckForVerticalCollision(Sprite collider, Sprite impactee)
+    {
+<span class="nc" id="L189">    	return checkForVerticalCollision(collider,impactee);</span>
+    }
+}
+
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

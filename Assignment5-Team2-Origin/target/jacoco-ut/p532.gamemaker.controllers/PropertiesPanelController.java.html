@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PropertiesPanelController.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">breakout</a> &gt; <a href="index.source.html" class="el_package">p532.gamemaker.controllers</a> &gt; <span class="el_source">PropertiesPanelController.java</span></div><h1>PropertiesPanelController.java</h1><pre class="source lang-java linenums">package p532.gamemaker.controllers;
+
+import javafx.event.ActionEvent;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import p532.gamemaker.sprite.PropertyType;
+import p532.gamemaker.strategies.design.AddConditionStrategy;
+
+<span class="nc" id="L9">public class PropertiesPanelController</span>
+{
+    /*
+    The following event handlers add new Conditions to Sprites
+    when they are fired. Then, they update the UI.
+     */
+
+<span class="nc" id="L16">    public static final EventHandler&lt;ActionEvent&gt; addOnKeyPressBehavior = new EventHandler() {</span>
+        @Override
+        public void handle(Event event)
+        {
+            /*/Create (load in) a ConditionComponent
+            ConditionComponent conditionComponent = new ConditionComponent();
+            //Add the ConditionComponent to the appropriate VBox group
+            VBox vBox = ParentWindow.getGameDesignScene().propertiesPanel.getVboxOnKeyPressConditions();
+            vBox.getChildren().add(conditionComponent.getView());*/
+
+<span class="nc" id="L26">            AddConditionStrategy.execute(PropertyType.OnKeyPressConditionComponent);</span>
+<span class="nc" id="L27">        }</span>
+    };
+
+<span class="nc" id="L30">    public static final EventHandler&lt;ActionEvent&gt; addOnHitSomethingBehavior = new EventHandler() {</span>
+        @Override
+        public void handle(Event event)
+        {
+            /*//Get the currently selected sprite
+            Sprite sprite = ParentWindow.getGameDesignScene().spriteController.getSelectedSprite();
+            //Add a Condition object to the selected Sprite.
+            CollisionCondition collisionCondition = new CollisionCondition();
+            sprite.getOnHitSomethingConditionList().add(collisionCondition);
+            //Update the UI (Observer Pattern could be used, but I'm lazy)
+            SelectSpriteStrategy.execute(sprite);*/
+<span class="nc" id="L41">            AddConditionStrategy.execute(PropertyType.OnHitSomethingConditionComponent);</span>
+<span class="nc" id="L42">        }</span>
+    };
+
+<span class="nc" id="L45">    public static final EventHandler&lt;ActionEvent&gt; addOnGetHitBehavior = new EventHandler() {</span>
+        @Override
+        public void handle(Event event)
+        {
+            /*/Get the currently selected sprite
+            Sprite sprite = ParentWindow.getGameDesignScene().spriteController.getSelectedSprite();
+            //Add a Condition object to the selected Sprite.
+            CollisionCondition collisionCondition = new CollisionCondition();
+            sprite.getOnGetHitConditionList().add(collisionCondition);
+            //Update the UI (Observer Pattern could be used, but I'm lazy)
+            SelectSpriteStrategy.execute(sprite);*/
+<span class="nc" id="L56">            AddConditionStrategy.execute(PropertyType.OnGetHitConditionComponent);</span>
+<span class="nc" id="L57">        }</span>
+    };
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

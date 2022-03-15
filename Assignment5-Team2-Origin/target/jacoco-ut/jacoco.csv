@@ -1,0 +1,103 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+breakout,p532.gamemaker.controllers,GamePlayController,9,0,0,0,4,0,2,0,2,0
+breakout,p532.gamemaker.controllers,DragController,185,0,10,0,49,0,15,0,10,0
+breakout,p532.gamemaker.controllers,PropertiesPanelController,16,0,0,0,4,0,2,0,2,0
+breakout,p532.gamemaker.controllers,GameDesignController,33,0,0,0,9,0,5,0,5,0
+breakout,p532.gamemaker.controllers,PropertiesPanelController.new EventHandler() {...},6,0,0,0,3,0,2,0,2,0
+breakout,p532.gamemaker.controllers,PropertiesPanelController.new EventHandler() {...},6,0,0,0,3,0,2,0,2,0
+breakout,p532.gamemaker.controllers,PropertiesPanelController.new EventHandler() {...},6,0,0,0,3,0,2,0,2,0
+breakout,p532.gamemaker.controllers,ParentWindow,106,0,0,0,35,0,11,0,11,0
+breakout,p532.gamemaker.controllers,EditorButtonsController,96,0,0,0,38,0,11,0,11,0
+breakout,p532.gamemaker.command,MoveDownCommmandStrategy,11,0,0,0,5,0,2,0,2,0
+breakout,p532.gamemaker.command,MoveUpCommandStrategy,11,0,0,0,5,0,2,0,2,0
+breakout,p532.gamemaker.command,MoveLeftCommandStrategy,11,0,0,0,5,0,2,0,2,0
+breakout,p532.gamemaker.command,MoveCommands,35,0,2,0,12,0,5,0,4,0
+breakout,p532.gamemaker.command,MoveRightCommandStrategy,11,0,0,0,5,0,2,0,2,0
+breakout,p532.gamemaker.utility,CollisionDetectionUtility,356,0,70,0,80,0,42,0,7,0
+breakout,p532.gamemaker.utility,ParseNumberUtility,9,0,0,0,4,0,1,0,1,0
+breakout,p532.gamemaker.sprite,GameCircle.new UpdateSpriteAdapter() {...},15,0,0,0,4,0,2,0,2,0
+breakout,p532.gamemaker.sprite,GameLabel.new UpdateSpriteAdapter() {...},17,0,0,0,4,0,2,0,2,0
+breakout,p532.gamemaker.sprite,GameLabel.new UpdateSpriteAdapter() {...},14,0,0,0,4,0,2,0,2,0
+breakout,p532.gamemaker.sprite,GameLabel,79,0,0,0,25,0,11,0,11,0
+breakout,p532.gamemaker.sprite,PropertyType,33,0,0,0,6,0,1,0,1,0
+breakout,p532.gamemaker.sprite,GameCircle,34,0,0,0,13,0,8,0,8,0
+breakout,p532.gamemaker.sprite,Level,69,0,4,0,21,0,8,0,6,0
+breakout,p532.gamemaker.sprite,Sprite,313,0,6,0,107,0,48,0,45,0
+breakout,p532.gamemaker.sprite,GameRectangle.new UpdateSpriteAdapter() {...},15,0,0,0,4,0,2,0,2,0
+breakout,p532.gamemaker.sprite,GameRectangle.new UpdateSpriteAdapter() {...},15,0,0,0,4,0,2,0,2,0
+breakout,p532.gamemaker.sprite,GameRectangle,67,3,0,0,20,2,7,1,7,1
+breakout,p532.gamemaker.sprite,UpdateSpriteAdapter,8,0,0,0,6,0,6,0,6,0
+breakout,p532.gamemaker.utility.saveload.custom,GameRectangleJsonDeserializer,19,0,0,0,6,0,2,0,2,0
+breakout,p532.gamemaker.utility.saveload.custom,ColorJsonSerializer,63,0,0,0,20,0,2,0,2,0
+breakout,p532.gamemaker.utility.saveload.custom,EndGameStrategyJsonDeserializer,6,0,0,0,3,0,2,0,2,0
+breakout,p532.gamemaker.utility.saveload.custom,MoveRightStrategyJsonDeserializer,6,0,0,0,3,0,2,0,2,0
+breakout,p532.gamemaker.utility.saveload.custom,ReflectStrategyJsonDeserializer,6,0,0,0,3,0,2,0,2,0
+breakout,p532.gamemaker.utility.saveload.custom,MoveDownStrategyJsonDeserializer,6,0,0,0,3,0,2,0,2,0
+breakout,p532.gamemaker.utility.saveload.custom,GameCircleJsonDeserializer,19,0,0,0,6,0,2,0,2,0
+breakout,p532.gamemaker.utility.saveload.custom,DestroySelfStrategyJsonDeserializer,6,0,0,0,3,0,2,0,2,0
+breakout,p532.gamemaker.utility.saveload.custom,VictoryStrategyJsonDeserializer,6,0,0,0,3,0,2,0,2,0
+breakout,p532.gamemaker.utility.saveload.custom,MoveUpStrategyJsonDeserializer,6,0,0,0,3,0,2,0,2,0
+breakout,p532.gamemaker.utility.saveload.custom,GameLabelJsonDeserializer,30,0,0,0,9,0,2,0,2,0
+breakout,p532.gamemaker.utility.saveload.custom,MoveLeftStrategyJsonDeserializer,6,0,0,0,3,0,2,0,2,0
+breakout,p532.gamemaker.utility.saveload.custom,SpriteViewJsonDeserializerUtility,55,0,0,0,12,0,1,0,1,0
+breakout,p532.gamemaker.utility.saveload.custom,ColorJsonDeserializer,47,0,0,0,9,0,3,0,3,0
+breakout,p532.gamemaker.utility.saveload.custom,SetClockTextStrategyJsonDeserializer,6,0,0,0,3,0,2,0,2,0
+breakout,p532.gamemaker.utility.saveload.custom,SetStopwatchTextStrategyJsonDeserializer,6,0,0,0,3,0,2,0,2,0
+breakout,p532.gamemaker.utility.saveload.custom,SwitchLevelStrategyJsonDeserializer,6,0,0,0,3,0,2,0,2,0
+breakout,p532.gamemaker.utility.saveload.custom,DoNothingCollisionStrategyJsonDeserializer,6,0,0,0,3,0,2,0,2,0
+breakout,p532.gamemaker.utility.saveload.custom,SpriteViewJsonSerializer,68,0,2,0,21,0,4,0,3,0
+breakout,p532.gamemaker.playthegame,TickObservable,115,0,8,0,39,0,15,0,11,0
+breakout,p532.gamemaker.playthegame,Stopwatch,17,0,0,0,7,0,4,0,4,0
+breakout,p532.gamemaker.playthegame,KeyEventNotifier,24,0,0,0,8,0,3,0,3,0
+breakout,p532.gamemaker.playthegame,KeyEventNotifier.new EventHandler() {...},24,0,2,0,5,0,3,0,2,0
+breakout,p532.gamemaker.sprite.conditions,CollisionCondition,37,0,2,0,13,0,7,0,6,0
+breakout,p532.gamemaker.sprite.conditions,KeyEventCondition,36,0,2,0,13,0,7,0,6,0
+breakout,p532.gamemaker.strategies.movement,MoveDownStrategy,18,0,0,0,6,0,4,0,4,0
+breakout,p532.gamemaker.strategies.movement,MoveLeftStrategy,18,0,0,0,6,0,4,0,4,0
+breakout,p532.gamemaker.strategies.movement,MoveRightStrategy,18,0,0,0,6,0,4,0,4,0
+breakout,p532.gamemaker.strategies.movement,MoveUpStrategy,18,0,0,0,6,0,4,0,4,0
+breakout,p532.gamemaker.strategies.display,SetClockTextStrategy,43,0,2,0,13,0,6,0,5,0
+breakout,p532.gamemaker.strategies.display,SetStopwatchTextStrategy,44,0,2,0,14,0,6,0,5,0
+breakout,p532.gamemaker.strategies.design,AddNewSpriteStrategy,31,0,0,0,14,0,4,0,4,0
+breakout,p532.gamemaker.strategies.design,SelectSpriteStrategy.new UpdateSpriteAdapter() {...},14,0,0,0,4,0,2,0,2,0
+breakout,p532.gamemaker.strategies.design,SelectSpriteStrategy.new UpdateSpriteAdapter() {...},14,0,0,0,4,0,2,0,2,0
+breakout,p532.gamemaker.strategies.design,SelectSpriteStrategy.new UpdateSpriteAdapter() {...},15,0,0,0,4,0,2,0,2,0
+breakout,p532.gamemaker.strategies.design,SelectSpriteStrategy.new UpdateSpriteAdapter() {...},14,0,0,0,4,0,2,0,2,0
+breakout,p532.gamemaker.strategies.design,SelectSpriteStrategy.new UpdateSpriteAdapter() {...},15,0,0,0,4,0,2,0,2,0
+breakout,p532.gamemaker.strategies.design,SelectSpriteStrategy.new UpdateSpriteAdapter() {...},16,0,0,0,4,0,2,0,2,0
+breakout,p532.gamemaker.strategies.design,SpecificPropertyFieldsPresenter,26,0,0,0,6,0,4,0,4,0
+breakout,p532.gamemaker.strategies.design,SelectSpriteStrategy.new UpdateSpriteAdapter() {...},15,0,0,0,4,0,2,0,2,0
+breakout,p532.gamemaker.strategies.design,SelectSpriteStrategy.new UpdateSpriteAdapter() {...},14,0,0,0,4,0,2,0,2,0
+breakout,p532.gamemaker.strategies.design,SpecificPropertyFieldsPresenter.new UpdateSpriteAdapter() {...},14,0,0,0,4,0,2,0,2,0
+breakout,p532.gamemaker.strategies.design,SelectSpriteStrategy.new UpdateSpriteAdapter() {...},16,0,0,0,4,0,2,0,2,0
+breakout,p532.gamemaker.strategies.design,SpecificPropertyFieldsPresenter.new UpdateSpriteAdapter() {...},14,0,0,0,4,0,2,0,2,0
+breakout,p532.gamemaker.strategies.design,SetGameLevelStrategy,18,0,0,0,6,0,2,0,2,0
+breakout,p532.gamemaker.strategies.design,BeginGamePlayStrategy,77,0,2,0,25,0,4,0,3,0
+breakout,p532.gamemaker.strategies.design,SetNewGameStrategy,15,0,0,0,5,0,2,0,2,0
+breakout,p532.gamemaker.strategies.design,AddConditionStrategy,54,0,6,0,17,0,5,0,2,0
+breakout,p532.gamemaker.strategies.design,GetKeyInputButtonStrategy.new EventHandler() {...},30,0,0,0,8,0,3,0,3,0
+breakout,p532.gamemaker.strategies.design,SelectSpriteStrategy,218,0,6,0,45,0,8,0,5,0
+breakout,p532.gamemaker.strategies.design,LoadGameDesignStrategy,42,0,6,0,13,0,4,0,1,0
+breakout,p532.gamemaker.strategies.design,GetKeyInputButtonStrategy,13,0,0,0,4,0,2,0,2,0
+breakout,p532.gamemaker.strategies.collision,EndGameStrategy,38,0,2,0,11,0,5,0,4,0
+breakout,p532.gamemaker.strategies.collision,CollisionType,33,0,0,0,6,0,1,0,1,0
+breakout,p532.gamemaker.strategies.collision,DestroySelfStrategy,16,0,0,0,6,0,4,0,4,0
+breakout,p532.gamemaker.strategies.collision,SwitchLevelStrategy,18,0,0,0,7,0,4,0,4,0
+breakout,p532.gamemaker.strategies.collision,ReflectStrategy,92,0,12,0,23,0,10,0,4,0
+breakout,p532.gamemaker.strategies.collision,VictoryStrategy,38,0,2,0,11,0,5,0,4,0
+breakout,p532.gamemaker.utility.saveload,SaveUtility,124,0,4,0,36,0,7,0,5,0
+breakout,p532.gamemaker.utility.saveload,LoadUtility,108,0,8,0,32,0,8,0,4,0
+breakout,p532.gamemaker.utility.saveload,CustomObjectMapper,141,0,0,0,22,0,1,0,1,0
+breakout,p532.gamemaker,Constants,3,0,0,0,1,0,1,0,1,0
+breakout,p532.gamemaker.strategies,DoNothingStrategy,12,0,0,0,5,0,5,0,5,0
+breakout,p532.gamemaker.strategies,StrategyOptions,32,0,0,0,4,0,1,0,1,0
+breakout,p532.gamemaker.views,GameDesignScene,44,0,0,0,10,0,5,0,5,0
+breakout,p532.gamemaker.views,ColorPickerComponentLoader,38,0,0,0,12,0,2,0,2,0
+breakout,p532.gamemaker.views,GamePlayScene,46,0,0,0,14,0,7,0,7,0
+breakout,p532.gamemaker.views,PropertiesPanel,333,0,10,0,92,0,24,0,17,0
+breakout,p532.gamemaker.views,SpritePresenter,95,0,2,0,27,0,11,0,10,0
+breakout,p532.gamemaker.views,KeyEventConditionComponent,142,0,14,0,38,0,18,0,11,0
+breakout,p532.gamemaker.views,ConditionComponent,152,0,12,0,41,0,19,0,13,0
+breakout,p532.gamemkaer.game,SetUpGameUI,73,0,4,0,21,0,5,0,3,0
+breakout,p532.gamemkaer.game,Game,42,0,0,0,15,0,7,0,7,0
+breakout,p532.gamemkaer.game,GameLevel,40,0,0,0,15,0,6,0,6,0

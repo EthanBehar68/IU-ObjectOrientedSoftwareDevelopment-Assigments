@@ -1,0 +1,38 @@
+SonarQube token for GameMaker - 54ffab3c70c851484300f108f087c91099718820
+
+cd Projects\IU-P532-Assignments\Assignment5-Team2
+
+mvn clean verify sonar:sonar -Dsonar.projectKey=GameMaker -Dsonar.host.url=http://localhost:9000 -Dsonar.login=54ffab3c70c851484300f108f087c91099718820
+
+
+
+GameMaker-Origin2
+
+GameMaker-Origin2: ca0a51b13ed0daef9f7a5e9f0723d777daca6fd6
+
+mvn clean verify sonar:sonar -Dsonar.projectKey=GameMaker-Origin -Dsonar.host.url=http://localhost:9000 -Dsonar.login=ca0a51b13ed0daef9f7a5e9f0723d777daca6fd6
+
+Codebase Insight
+
+DisplayName/Key/TokenName: CodebaseInsight
+Token: 961dd11a289a95da228e36b2d7958f5ad73aab34
+
+./gradlew sonarqube -Dsonar.projectKey=CodebaseInsight -Dsonar.host.url=http://localhost:9000 -Dsonar.login=961dd11a289a95da228e36b2d7958f5ad73aab34
+
+./gradlew sonarqube \
+  -Dsonar.projectKey=CodebaseInsight \
+  -Dsonar.host.url=http://localhost:9000 \
+  -Dsonar.login=961dd11a289a95da228e36b2d7958f5ad73aab34
+
+
+
+
+
+
+Codebase Insight TAKE 2
+DisplayName/Key/TokenName: CodebaseInsight
+Token: 7721e39595c0d3462c7adc238506fce9fe721ace
+
+
+cd D:\Projects\IU-P532-Assignments\FinalProject-Team3
+gradlew sonarqube -Dsonar.projectKey=CodebaseInsights -Dsonar.host.url=http://localhost:9000 -Dsonar.login=7721e39595c0d3462c7adc238506fce9fe721ace

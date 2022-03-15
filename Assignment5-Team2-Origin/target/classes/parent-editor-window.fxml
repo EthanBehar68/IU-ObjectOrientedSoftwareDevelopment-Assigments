@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.text.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+
+<HBox maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <ScrollPane id="scrollPropertiesRoot" maxWidth="-Infinity" prefHeight="200.0" prefWidth="248.0" HBox.hgrow="NEVER" />
+      <VBox id="vboxPreview" maxWidth="1.7976931348623157E308" prefHeight="200.0" prefWidth="400.0" HBox.hgrow="ALWAYS">
+         <children>
+            <AnchorPane id="paneGameRoot" VBox.vgrow="NEVER" />
+         </children>
+      </VBox>
+   </children>
+</HBox>

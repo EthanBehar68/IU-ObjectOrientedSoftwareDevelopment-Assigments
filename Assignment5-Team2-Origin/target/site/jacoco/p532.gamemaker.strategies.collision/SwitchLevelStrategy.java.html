@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SwitchLevelStrategy.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">breakout</a> &gt; <a href="index.source.html" class="el_package">p532.gamemaker.strategies.collision</a> &gt; <span class="el_source">SwitchLevelStrategy.java</span></div><h1>SwitchLevelStrategy.java</h1><pre class="source lang-java linenums">package p532.gamemaker.strategies.collision;
+
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import p532.gamemaker.controllers.ParentWindow;
+import p532.gamemaker.sprite.Sprite;
+import p532.gamemaker.strategies.GeneralStrategy;
+import p532.gamemaker.strategies.design.BeginGamePlayStrategy;
+
+public class SwitchLevelStrategy  implements CollisionStrategy, GeneralStrategy {
+    /**
+     * A static SwitchLevelStrategy that can be used instead of the constructor.
+     */
+<span class="nc" id="L14">    public static final SwitchLevelStrategy instance = new SwitchLevelStrategy();</span>
+
+    private SwitchLevelStrategy() {
+    }
+
+    @Override
+    public void execute(Sprite target) {
+        //Pause the game
+<span class="nc" id="L22">        ParentWindow.getGamePlayScene().getTickObservable().stopGameLoop();</span>
+<span class="nc" id="L23">        System.out.println(&quot;Switching Level...&quot;);</span>
+
+        //TODO
+<span class="nc" id="L26">    }</span>
+
+    @Override
+    public void doCollisionBehavior(Sprite colliderOrImpactee, CollisionType collisionType) {
+        //Reuse above method
+<span class="nc" id="L31">        execute(colliderOrImpactee);</span>
+<span class="nc" id="L32">    }</span>
+
+    @Override
+    public String toString() {
+<span class="nc" id="L36">        return &quot;Switch Level&quot;;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

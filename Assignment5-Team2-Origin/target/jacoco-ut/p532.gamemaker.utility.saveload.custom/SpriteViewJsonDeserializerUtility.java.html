@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>SpriteViewJsonDeserializerUtility.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">breakout</a> &gt; <a href="index.source.html" class="el_package">p532.gamemaker.utility.saveload.custom</a> &gt; <span class="el_source">SpriteViewJsonDeserializerUtility.java</span></div><h1>SpriteViewJsonDeserializerUtility.java</h1><pre class="source lang-java linenums">package p532.gamemaker.utility.saveload.custom;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.node.DoubleNode;
+import javafx.scene.paint.Color;
+import p532.gamemaker.sprite.SpriteView;
+
+/**
+ * This class is capable of reading all properties needed for a SpriteView
+ * and adding those to a newly-created SpriteView concrete instance.
+ */
+public class SpriteViewJsonDeserializerUtility
+{
+    private SpriteViewJsonDeserializerUtility() {
+    }
+
+    /**
+     * Reads all properties needed for a SpriteView
+     * and adds those properties to the input spriteView instance.
+     * @param node a JSON object containing a serialized SpriteView
+     * @param spriteView the POJO that the properties from 'node' need to be
+     *                   copied to
+     */
+    public static void addFields(JsonNode node, SpriteView spriteView)
+    {
+        //Parse the fields from the JSON and add them to the POJO
+<span class="nc" id="L27">        double width = (Double) ((DoubleNode) node.get(&quot;width&quot;)).numberValue();</span>
+<span class="nc" id="L28">        spriteView.setSpriteWidth(width);</span>
+<span class="nc" id="L29">        double height = (Double) ((DoubleNode) node.get(&quot;height&quot;)).numberValue();</span>
+<span class="nc" id="L30">        spriteView.setSpriteHeight(height);</span>
+<span class="nc" id="L31">        double layoutX = (Double) ((DoubleNode) node.get(&quot;layoutX&quot;)).numberValue();</span>
+<span class="nc" id="L32">        spriteView.setLayoutX(layoutX);</span>
+<span class="nc" id="L33">        double layoutY = (Double) ((DoubleNode) node.get(&quot;layoutY&quot;)).numberValue();</span>
+<span class="nc" id="L34">        spriteView.setLayoutY(layoutY);</span>
+
+        //Add the color composite object
+<span class="nc" id="L37">        JsonNode colorNode = node.get(&quot;color&quot;);</span>
+<span class="nc" id="L38">        Color color = ColorJsonDeserializer.deserializeColorNode(colorNode);</span>
+<span class="nc" id="L39">        spriteView.setFill(color);</span>
+<span class="nc" id="L40">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>

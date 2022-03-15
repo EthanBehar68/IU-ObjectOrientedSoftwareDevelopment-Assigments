@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>PropertiesPanel.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">breakout</a> &gt; <a href="index.source.html" class="el_package">p532.gamemaker.views</a> &gt; <span class="el_source">PropertiesPanel.java</span></div><h1>PropertiesPanel.java</h1><pre class="source lang-java linenums">package p532.gamemaker.views;
+
+import javafx.collections.FXCollections;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
+import javafx.scene.Parent;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
+import p532.gamemaker.controllers.PropertiesPanelController;
+import p532.gamemaker.sprite.PropertyType;
+import p532.gamemaker.sprite.UpdateSpriteAdapter;
+import p532.gamemaker.strategies.GeneralStrategy;
+import p532.gamemaker.utility.ParseNumberUtility;
+
+import java.io.IOException;
+import java.util.List;
+
+/**
+ * Adds and removes &quot;property components&quot; (for example, a label and a text view)
+ * from the properties scroll area.
+ */
+public class PropertiesPanel
+{
+    private GameDesignScene scene;
+    private Parent parentPanel;
+    private VBox vboxAllProperties;
+    public static final String FXML_PATH = &quot;properties-panel.fxml&quot;;
+
+    private VBox vboxStandardProperties;
+    private VBox vboxOnKeyPressConditions;
+    private VBox vboxOnHitSomethingConditions;
+    private VBox vboxOnGetHitConditions;
+    private VBox vboxMouseEvents;
+
+    ////////////////////////////////////////////////////////////////////////
+
+    public PropertiesPanel(GameDesignScene scene)
+<span class="nc" id="L38">    {</span>
+<span class="nc" id="L39">        this.scene = scene;</span>
+<span class="nc" id="L40">        reset(scene);</span>
+<span class="nc" id="L41">    }</span>
+
+    ////////////////////////////////////////////////////////////////////////
+
+    public VBox getVboxAllProperties() {
+<span class="nc" id="L46">        return vboxAllProperties;</span>
+    }
+
+    public VBox getVboxStandardProperties() {
+<span class="nc" id="L50">        return vboxStandardProperties;</span>
+    }
+
+    public VBox getVboxOnKeyPressConditions() {
+<span class="nc" id="L54">        return vboxOnKeyPressConditions;</span>
+    }
+
+    public VBox getVboxOnHitSomethingConditions() {
+<span class="nc" id="L58">        return vboxOnHitSomethingConditions;</span>
+    }
+
+    public VBox getVboxOnGetHitConditions() {
+<span class="nc" id="L62">        return vboxOnGetHitConditions;</span>
+    }
+
+    public VBox getVboxMouseEvents() {
+<span class="nc" id="L66">        return vboxMouseEvents;</span>
+    }
+
+    ////////////////////////////////////////////////////////////////////////
+
+    private void reset(GameDesignScene scene)
+    {
+        try
+        {
+            //1. Create the properties panel
+<span class="nc" id="L76">            parentPanel = FXMLLoader.load(getClass().getClassLoader().getResource(FXML_PATH));</span>
+
+            //2. Select the node that the properties panel will be placed into
+<span class="nc" id="L79">            ScrollPane panePropertiesPanelRoot = (ScrollPane) scene.lookup(&quot;#scrollPropertiesRoot&quot;);</span>
+
+            //3. Select the VBoxes that the property components will be placed into
+<span class="nc" id="L82">            vboxAllProperties = (VBox) parentPanel.lookup(&quot;#vboxAllProperties&quot;);</span>
+<span class="nc" id="L83">            vboxStandardProperties = (VBox) parentPanel.lookup(&quot;#vboxStandardProperties&quot;);</span>
+<span class="nc" id="L84">            vboxOnKeyPressConditions = (VBox) parentPanel.lookup(&quot;#vboxOnKeyPressConditions&quot;);</span>
+<span class="nc" id="L85">            vboxOnHitSomethingConditions = (VBox) parentPanel.lookup(&quot;#vboxOnHitSomethingConditions&quot;);</span>
+<span class="nc" id="L86">            vboxOnGetHitConditions = (VBox) parentPanel.lookup(&quot;#vboxOnGetHitConditions&quot;);</span>
+<span class="nc" id="L87">            vboxMouseEvents = (VBox) parentPanel.lookup(&quot;#vboxMouseEvents&quot;);</span>
+
+            //4. Add click events to all buttons
+<span class="nc" id="L90">            Button btnAddOnKeyPressBehavior = (Button) parentPanel.lookup(&quot;#btnAddOnKeyPressBehavior&quot;);</span>
+<span class="nc" id="L91">            btnAddOnKeyPressBehavior.setOnAction(PropertiesPanelController.addOnKeyPressBehavior);</span>
+<span class="nc" id="L92">            Button btnAddOnHitSomethingBehavior = (Button) parentPanel.lookup(&quot;#btnAddOnHitSomethingBehavior&quot;);</span>
+<span class="nc" id="L93">            btnAddOnHitSomethingBehavior.setOnAction(PropertiesPanelController.addOnHitSomethingBehavior);</span>
+<span class="nc" id="L94">            Button btnAddOnGetHitBehavior = (Button) parentPanel.lookup(&quot;#btnAddOnGetHitBehavior&quot;);</span>
+<span class="nc" id="L95">            btnAddOnGetHitBehavior.setOnAction(PropertiesPanelController.addOnGetHitBehavior);</span>
+
+            //5. Add the properties panel to the editor scene
+<span class="nc" id="L98">            panePropertiesPanelRoot.setContent(parentPanel);</span>
+        }
+<span class="nc" id="L100">        catch (IOException e) {</span>
+<span class="nc" id="L101">            System.out.println(&quot;Failed to load in &quot; + FXML_PATH);</span>
+<span class="nc" id="L102">            e.printStackTrace();</span>
+<span class="nc" id="L103">        }</span>
+<span class="nc" id="L104">    }</span>
+
+
+    /**
+     * Given an enum `propertyType`, returns the correct VBox container
+     * that components relevant to that property group should be added to.
+     * @param propertyType the group of the property
+     * @return a specific VBox or, by default, vboxAllProperties.
+     */
+    private VBox selectPropertyContainer(PropertyType propertyType)
+    {
+<span class="nc bnc" id="L115" title="All 6 branches missed.">        switch (propertyType)</span>
+        {
+            case StandardPropertyComponent:
+<span class="nc" id="L118">                return vboxStandardProperties;</span>
+            case OnKeyPressConditionComponent:
+<span class="nc" id="L120">                return vboxOnKeyPressConditions;</span>
+            case OnHitSomethingConditionComponent:
+<span class="nc" id="L122">                return vboxOnHitSomethingConditions;</span>
+            case OnGetHitConditionComponent:
+<span class="nc" id="L124">                return vboxOnGetHitConditions;</span>
+            case MouseEventComponent:
+<span class="nc" id="L126">                return vboxMouseEvents;</span>
+            default:
+<span class="nc" id="L128">                return vboxAllProperties; //default to parent</span>
+        }
+    }
+
+
+    public void addStringPropertyComponent(String labelText, String initialValue, PropertyType propertyType, UpdateSpriteAdapter updateSpriteAdapter)
+    {
+        try
+        {
+            //Add a property component for integer input
+<span class="nc" id="L138">            VBox textEntryComponent = FXMLLoader.load(getClass().getClassLoader().getResource(&quot;textfield-property-component.fxml&quot;));</span>
+<span class="nc" id="L139">            VBox destination = selectPropertyContainer(propertyType);</span>
+<span class="nc" id="L140">            destination.getChildren().add(textEntryComponent);</span>
+
+            //Set the label text
+<span class="nc" id="L143">            Label labelPropertyName = (Label) textEntryComponent.lookup(&quot;#lblPropertyName&quot;);</span>
+<span class="nc" id="L144">            labelPropertyName.textProperty().set(labelText);</span>
+
+            //Set the initial value of the text field
+<span class="nc" id="L147">            TextField textField = (TextField) textEntryComponent.lookup(&quot;#txtPropertyEntry&quot;);</span>
+<span class="nc" id="L148">            textField.textProperty().set(initialValue);</span>
+
+            //When the text field changes, update the sprite
+<span class="nc" id="L151">            textField.textProperty().addListener((observable, oldValue, newValue) -&gt; {</span>
+<span class="nc" id="L152">                updateSpriteAdapter.updateStringField(newValue);</span>
+<span class="nc" id="L153">            });</span>
+        }
+<span class="nc" id="L155">        catch (IOException | NullPointerException ex) {</span>
+            //Do nothing -- just print a msg
+<span class="nc" id="L157">            System.out.println(&quot;Failed to load in the XML for textfield-property-component.fxml&quot;);</span>
+<span class="nc" id="L158">            ex.printStackTrace();</span>
+<span class="nc" id="L159">        }</span>
+<span class="nc" id="L160">    }</span>
+
+
+    public void addDoublePropertyComponent(String labelText, double initialValue, PropertyType propertyType, UpdateSpriteAdapter updateSpriteAdapter)
+    {
+        try
+        {
+            //Add a property component for integer input
+<span class="nc" id="L168">            VBox textEntryComponent = FXMLLoader.load(getClass().getClassLoader().getResource(&quot;textfield-property-component.fxml&quot;));</span>
+<span class="nc" id="L169">            VBox destination = selectPropertyContainer(propertyType);</span>
+<span class="nc" id="L170">            destination.getChildren().add(textEntryComponent);</span>
+
+            //Set the label text
+<span class="nc" id="L173">            Label labelPropertyName = (Label) textEntryComponent.lookup(&quot;#lblPropertyName&quot;);</span>
+<span class="nc" id="L174">            labelPropertyName.textProperty().set(labelText);</span>
+
+            //Set the initial value of the text field
+<span class="nc" id="L177">            TextField textField = (TextField) textEntryComponent.lookup(&quot;#txtPropertyEntry&quot;);</span>
+<span class="nc" id="L178">            textField.textProperty().set(Double.toString(initialValue));</span>
+
+            //When the text field changes, update the sprite
+<span class="nc" id="L181">            textField.textProperty().addListener((observable, oldValue, newValue) -&gt; {</span>
+                //Parse the string input or do nothing if it is null (there was a parsing error)
+<span class="nc" id="L183">                Double parsedValue = ParseNumberUtility.parseDoubleOrReturnNull(newValue);</span>
+<span class="nc bnc" id="L184" title="All 2 branches missed.">                if (parsedValue != null)</span>
+<span class="nc" id="L185">                    updateSpriteAdapter.updateDoubleField(parsedValue);</span>
+<span class="nc" id="L186">            });</span>
+        }
+<span class="nc" id="L188">        catch (IOException | NullPointerException ex) {</span>
+            //Do nothing -- just print a msg
+<span class="nc" id="L190">            System.out.println(&quot;Failed to load in the XML for textfield-property-component.fxml&quot;);</span>
+<span class="nc" id="L191">            ex.printStackTrace();</span>
+<span class="nc" id="L192">        }</span>
+<span class="nc" id="L193">    }</span>
+
+
+    //This method is unused but still good!
+    /*public void addComboBoxPropertyComponent(String labelText, CollisionStrategy initialValue, PropertyType propertyType, UpdateSpriteAdapter updateSpriteAdapter, CollisionStrategy... comboBoxItems)
+    {
+        try
+        {
+            //Add a property component for integer input
+            VBox comboBoxComponent = FXMLLoader.load(getClass().getClassLoader().getResource(&quot;combobox-property-component.fxml&quot;));
+            VBox destination = selectPropertyContainer(propertyType);
+            destination.getChildren().add(comboBoxComponent);
+
+            //Set the label text
+            Label labelPropertyName = (Label) comboBoxComponent.lookup(&quot;#lblPropertyName&quot;);
+            labelPropertyName.textProperty().set(labelText);
+
+            //Find the ComboBox
+            ComboBox comboBox = (ComboBox) comboBoxComponent.lookup(&quot;#comboPropertyEntry&quot;);
+
+            //Place the combo box items passed to this method into the combo box
+            comboBox.setItems(FXCollections.observableArrayList(comboBoxItems));
+            //Set the initial value of the ComboBox
+            comboBox.setValue(initialValue);
+
+            //When the user selects a new combo box item, update the sprite
+            comboBox.valueProperty().addListener((observable, oldValue, newValue) -&gt; {
+                if (newValue instanceof CollisionStrategy)
+                    updateSpriteAdapter.updateStrategy((CollisionStrategy) newValue);
+                else
+                    System.err.println(&quot;Error: Selected something that is not a CollisionStrategy from the properties combo box&quot;);
+            });
+        }
+        catch (IOException | NullPointerException ex) {
+            //Do nothing -- just print a msg
+            System.out.println(&quot;Failed to load in the XML for combobox-property-component.fxml&quot;);
+            ex.printStackTrace();
+        }
+    }*/
+
+
+
+    public void addComboBoxPropertyComponent(String labelText, GeneralStrategy initialValue, PropertyType propertyType, UpdateSpriteAdapter updateSpriteAdapter, List&lt;GeneralStrategy&gt; comboBoxItems)
+    {
+        try
+        {
+            //Add a property component for integer input
+<span class="nc" id="L240">            VBox comboBoxComponent = FXMLLoader.load(getClass().getClassLoader().getResource(&quot;combobox-property-component.fxml&quot;));</span>
+<span class="nc" id="L241">            VBox destination = selectPropertyContainer(propertyType);</span>
+<span class="nc" id="L242">            destination.getChildren().add(comboBoxComponent);</span>
+
+            //Set the label text
+<span class="nc" id="L245">            Label labelPropertyName = (Label) comboBoxComponent.lookup(&quot;#lblPropertyName&quot;);</span>
+<span class="nc" id="L246">            labelPropertyName.textProperty().set(labelText);</span>
+
+            //Find the ComboBox
+<span class="nc" id="L249">            ComboBox comboBox = (ComboBox) comboBoxComponent.lookup(&quot;#comboPropertyEntry&quot;);</span>
+
+            //Place the combo box items passed to this method into the combo box
+<span class="nc" id="L252">            comboBox.setItems(FXCollections.observableArrayList(comboBoxItems));</span>
+            //Set the initial value of the ComboBox
+<span class="nc" id="L254">            comboBox.setValue(initialValue);</span>
+
+            //When the user selects a new combo box item, update the sprite
+<span class="nc" id="L257">            comboBox.valueProperty().addListener((observable, oldValue, newValue) -&gt; {</span>
+<span class="nc bnc" id="L258" title="All 2 branches missed.">                if (newValue instanceof GeneralStrategy)</span>
+<span class="nc" id="L259">                    updateSpriteAdapter.updateStrategy((GeneralStrategy) newValue);</span>
+                else
+<span class="nc" id="L261">                    System.err.println(&quot;Error: Selected something that is not a GeneralStrategy from a properties combo box&quot;);</span>
+<span class="nc" id="L262">            });</span>
+        }
+<span class="nc" id="L264">        catch (IOException | NullPointerException ex) {</span>
+            //Do nothing -- just print a msg
+<span class="nc" id="L266">            System.out.println(&quot;Failed to load in the XML for combobox-property-component.fxml&quot;);</span>
+<span class="nc" id="L267">            ex.printStackTrace();</span>
+<span class="nc" id="L268">        }</span>
+<span class="nc" id="L269">    }</span>
+
+
+    /**
+     * Adds a single Node to one of the containers in this panel.
+     * @param node any JavaFX element; e.g. a VBox containing other Nodes
+     * @param propertyType this affects which container the Node will be placed into
+     */
+    public void addNode(Node node, PropertyType propertyType)
+    {
+        //Add the component to the correct VBox
+<span class="nc" id="L280">        VBox destination = selectPropertyContainer(propertyType);</span>
+<span class="nc" id="L281">        destination.getChildren().add(node);</span>
+<span class="nc" id="L282">    }</span>
+
+
+
+    /**
+     * Removes all dynamically-added property components from the properties view
+     * and reverts to the FXML template.
+     */
+    public void clear()
+    {
+        //Revert to the template layout
+<span class="nc" id="L293">        reset(scene);</span>
+<span class="nc" id="L294">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
